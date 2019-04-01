@@ -1,5 +1,5 @@
 # Parsed config file
-SonicWall-parsed.csv
+config-parsed.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

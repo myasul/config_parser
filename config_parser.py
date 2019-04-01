@@ -1,20 +1,28 @@
 #!/usr/bin/env python3
 import re
 import csv
+import sys
+import os
 
-CONFIG_FILENAME = 'SonicWall-config.txt'
-PARSED_CONFIG_FILENAME = 'SonicWall-parsed.csv'
+PARSED_CONFIG_FILENAME = 'config-parsed.csv'
 ACCESS_RULE_REGEX = re.compile(r'^access-rule.+$', re.I | re.M)
 
 
-def process_access_rules():
-    # read config file contents
-    with open(CONFIG_FILENAME, 'r') as config_file:
-        content = config_file.read()
+def process_access_rules(file_name):
+    if os.path.exists(file_name):
+        # read config file contents
+        with open(file_name, 'r') as config_file:
+            content = config_file.read()
+    else:
+        print("[ERROR] {} cannot be found. ".format(file_name) + 
+                "Please put it beside the config parser script " +
+                "or please specify the full valid path.")
+        return
 
     access_rules = ACCESS_RULE_REGEX.findall(content)
     access_rules_obj = []
     for rule in access_rules:
+        # Create a list of AccessRule objects
         access_rules_obj.append(AccessRule(rule))
 
     with open(PARSED_CONFIG_FILENAME, mode='w+') as parsed_config:
@@ -33,7 +41,11 @@ def process_access_rules():
                 rule.get_source_address(), 
                 rule.get_service(), 
                 rule.get_destination_address()])
-
+'''
+Access Rule object to extract necessary parts needed to be displayed
+in an access rule. This utilizes regular expression that focuses 
+on lookbehinds and lookaheads
+'''
 class AccessRule:
     def __init__(self, rule):
         self.access_rule = rule
@@ -106,4 +118,9 @@ class AccessRule:
 
 
 if __name__ == "__main__":
-    process_access_rules()
+    try:
+        file_name = sys.argv[1].strip()
+        process_access_rules(file_name)
+        print("[CONFIRMATION] Config file parsed successfully. Please see config-parsed.csv.")
+    except IndexError:
+        print("[ERROR] Please input filename. e.g. '/config_parser test_config.txt'")
