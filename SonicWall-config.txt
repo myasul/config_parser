@@ -1,0 +1,605 @@
+zone l3-adt
+    security-type trusted
+    interface-trust
+    auto-generate-access-rules allow-from-to-equal
+    auto-generate-access-rules allow-from-higher
+    auto-generate-access-rules allow-to-lower
+    auto-generate-access-rules deny-from-lower
+    no content-filtering
+    no client-anti-virus
+    no gateway-anti-virus
+    no intrusion-prevention
+    no app-control
+    no anti-spyware
+    no create-group-vpn
+    no ssl-control
+    no sslvpn-access
+    no guest-services
+    exit
+
+zone l3-untrust-nw
+    security-type trusted
+    interface-trust
+    auto-generate-access-rules allow-from-to-equal
+    auto-generate-access-rules allow-from-higher
+    auto-generate-access-rules allow-to-lower
+    auto-generate-access-rules deny-from-lower
+    no content-filtering
+    no client-anti-virus
+    no gateway-anti-virus
+    no intrusion-prevention
+    no app-control
+    no anti-spyware
+    no create-group-vpn
+    no ssl-control
+    no sslvpn-access
+    no guest-services
+    exit
+
+zone l3-voip
+    security-type trusted
+    interface-trust
+    auto-generate-access-rules allow-from-to-equal
+    auto-generate-access-rules allow-from-higher
+    auto-generate-access-rules allow-to-lower
+    auto-generate-access-rules deny-from-lower
+    no content-filtering
+    no client-anti-virus
+    no gateway-anti-virus
+    no intrusion-prevention
+    no app-control
+    no anti-spyware
+    no create-group-vpn
+    no ssl-control
+    no sslvpn-access
+    no guest-services
+    exit
+
+zone l3-trust
+    security-type trusted
+    interface-trust
+    auto-generate-access-rules allow-from-to-equal
+    auto-generate-access-rules allow-from-higher
+    auto-generate-access-rules allow-to-lower
+    auto-generate-access-rules deny-from-lower
+    no content-filtering
+    no client-anti-virus
+    no gateway-anti-virus
+    no intrusion-prevention
+    no app-control
+    no anti-spyware
+    no create-group-vpn
+    no ssl-control
+    no sslvpn-access
+    no guest-services
+    exit
+
+zone l3-wifi
+    security-type trusted
+    interface-trust
+    auto-generate-access-rules allow-from-to-equal
+    auto-generate-access-rules allow-from-higher
+    auto-generate-access-rules allow-to-lower
+    auto-generate-access-rules deny-from-lower
+    no content-filtering
+    no client-anti-virus
+    no gateway-anti-virus
+    no intrusion-prevention
+    no app-control
+    no anti-spyware
+    no create-group-vpn
+    no ssl-control
+    no sslvpn-access
+    no guest-services
+    exit
+
+zone l3-vpn
+    security-type trusted
+    interface-trust
+    auto-generate-access-rules allow-from-to-equal
+    auto-generate-access-rules allow-from-higher
+    auto-generate-access-rules allow-to-lower
+    auto-generate-access-rules deny-from-lower
+    no content-filtering
+    no client-anti-virus
+    no gateway-anti-virus
+    no intrusion-prevention
+    no app-control
+    no anti-spyware
+    no create-group-vpn
+    no ssl-control
+    no sslvpn-access
+    no guest-services
+    exit
+
+zone l3-untrust-vp
+    security-type trusted
+    interface-trust
+    auto-generate-access-rules allow-from-to-equal
+    auto-generate-access-rules allow-from-higher
+    auto-generate-access-rules allow-to-lower
+    auto-generate-access-rules deny-from-lower
+    no content-filtering
+    no client-anti-virus
+    no gateway-anti-virus
+    no intrusion-prevention
+    no app-control
+    no anti-spyware
+    no create-group-vpn
+    no ssl-control
+    no sslvpn-access
+    no guest-services
+    exit
+
+zone SHVPN
+    security-type trusted
+    interface-trust
+    auto-generate-access-rules allow-from-to-equal
+    auto-generate-access-rules allow-from-higher
+    auto-generate-access-rules allow-to-lower
+    auto-generate-access-rules deny-from-lower
+    no content-filtering
+    no client-anti-virus
+    no gateway-anti-virus
+    no intrusion-prevention
+    no app-control
+    no anti-spyware
+    no create-group-vpn
+    no ssl-control
+    no sslvpn-access
+    no guest-services
+    exit
+
+interface X0
+    ip-assignment l3-adt static
+        ip 10.129.108.1 netmask 255.255.255.0
+        no gateway
+        exit
+    no comment
+    no management http
+    no management https
+    no user-login http
+    no user-login https
+    https-redirect
+    no management ping
+    no management ssh
+    no management snmp
+    mac default
+    no multicast
+    no routed-mode
+    exit
+
+interface X2
+    ip-assignment l3-untrust-nw static
+        ip 67.78.52.50 netmask 255.255.255.252
+        no gateway
+        exit
+    no comment
+    no management http
+    no management https
+    no user-login http
+    no user-login https
+    https-redirect
+    no management ping
+    no management ssh
+    no management snmp
+    mac default
+    no multicast
+    no routed-mode
+    exit
+
+interface X3
+    ip-assignment l3-voip static
+        ip 10.129.106.1 netmask 255.255.255.0
+        no gateway
+        exit
+    no comment
+    no management http
+    no management https
+    no user-login http
+    no user-login https
+    https-redirect
+    no management ping
+    no management ssh
+    no management snmp
+    mac default
+    no multicast
+    no routed-mode
+    exit
+
+interface X4
+    ip-assignment l3-trust static
+        ip 10.129.101.1 netmask 255.255.255.0
+        no gateway
+        exit
+    no comment
+    no management http
+    no management https
+    no user-login http
+    no user-login https
+    https-redirect
+    no management ping
+    no management ssh
+    no management snmp
+    mac default
+    no multicast
+    no routed-mode
+    exit
+
+interface X5
+    ip-assignment l3-wifi static
+        ip 10.129.107.1 netmask 255.255.255.0
+        no gateway
+        exit
+    no comment
+    no management http
+    no management https
+    no user-login http
+    no user-login https
+    https-redirect
+    no management ping
+    no management ssh
+    no management snmp
+    mac default
+    no multicast
+    no routed-mode
+    exit
+
+address-object ipv4 External-static-IP host 67.78.52.50 zone l3-untrust-nw
+
+address-object ipv4 67.78.52.50/30 host 67.78.52.50 zone l3-untrust-nw
+
+address-object ipv4 10.129.106.1 host 10.129.106.1 zone l3-voip
+
+address-object ipv4 8.8.4.4 host 8.8.4.4 zone WAN
+
+address-object ipv4 8.8.8.8 host 8.8.8.8 zone WAN
+
+address-object ipv4 10.129.107.1 host 10.129.107.1 zone l3-wifi
+
+address-object ipv4 10.129.101.1 host 10.129.101.1 zone l3-trust
+
+address-object ipv4 10.129.101.254 host 10.129.101.254 zone l3-trust
+
+address-object ipv4 10.129.106.0/24 network 10.129.106.0 255.255.255.0 zone l3-voip
+
+address-object ipv4 52.2.217.222 host 52.2.217.222 zone WAN
+
+address-object ipv4 52.37.190.122 host 52.37.190.122 zone WAN
+
+address-object ipv4 CN network 0.0.0.0 255.255.255.255 zone LAN
+
+address-object ipv4 IQ network 0.0.0.0 255.255.255.255 zone LAN
+
+address-object ipv4 IR network 0.0.0.0 255.255.255.255 zone LAN
+
+address-object ipv4 KR network 0.0.0.0 255.255.255.255 zone LAN
+
+address-object ipv4 panw-highrisk-ip-list network 0.0.0.0 255.255.255.255 zone LAN
+
+address-object ipv4 panw-known-ip-list network 0.0.0.0 255.255.255.255 zone LAN
+
+address-object ipv4 RU network 0.0.0.0 255.255.255.255 zone LAN
+
+address-object ipv4 10.129.101.254/32 host 10.129.101.254 zone l3-trust
+
+address-group ipv4 ADDR_GROUP_0_PaloAlto
+    address-object ipv4 8.8.4.4
+    address-object ipv4 8.8.8.8
+    exit
+
+address-group ipv4 ADDR_GROUP_1_PaloAlto
+    address-object ipv4 10.129.101.1
+    address-object ipv4 10.129.101.254
+    exit
+
+address-group ipv4 ADDR_GROUP_2_PaloAlto
+    address-object ipv4 52.2.217.222
+    address-object ipv4 52.37.190.122
+    exit
+
+address-group ipv4 ADDR_GROUP_3_PaloAlto
+    address-object ipv4 CN
+    address-object ipv4 IQ
+    address-object ipv4 IR
+    address-object ipv4 KR
+    address-object ipv4 panw-highrisk-ip-list
+    address-object ipv4 panw-known-ip-list
+    address-object ipv4 RU
+    exit
+
+service-object application-default TCP 1 1
+service-object HTTP TCP 80 80
+service-object ""HTTP Management"" TCP 80 80"
+service-object HTTPS TCP 443 443
+service-object ""HTTPS Management"" TCP 443 443"
+service-object ""RADIUS Accounting"" UDP 1813 1813"
+service-object IDENT TCP 113 113
+service-object IMAP3 TCP 220 220
+service-object IMAP4 TCP 143 143
+service-object ISAKMP UDP 500 500
+service-object LDAP TCP 389 389
+service-object LDAPS TCP 636 636
+service-object ""LPR (Unix Printer)"" TCP 515 515"
+service-object ""MS SQL"" TCP 1433 1433"
+service-object ""NNTP (News)"" TCP 119 119"
+service-object NTP UDP 123 123
+service-object ""POP3 (Retrieve E-Mail)"" TCP 110 110"
+service-object ""Terminal Services TCP"" TCP 3389 3389"
+service-object ""Terminal Services UDP"" UDP 3389 3389"
+service-object PPTP TCP 1723 1723
+service-object ""SMTP (Send E-Mail)"" TCP 25 25"
+service-object SNMP UDP 161 162
+service-object ""SQL*Net "" TCP 1521 1521"
+
+service-group ""SonicWALL SSO Agents"""
+    exit
+
+service-group ""SonicWALL TS Agents"""
+    exit
+
+service-group ""Terminal Services"""
+"    service-object ""Terminal Services UDP"""
+"    service-object ""Terminal Services TCP"""
+    exit
+
+service-group Citrix
+"    service-object ""Citrix UDP"""
+"    service-object ""Citrix TCP (Session Reliability)"""
+"    service-object ""Citrix TCP"""
+    exit
+
+service-group ""IRC (Chat)"""
+"    service-object ""IRC (Chat) 7000"""
+"    service-object ""IRC (Chat) 6666-6670"""
+"    service-object ""IRC (Chat) 194"""
+    exit
+
+access-rule from l3-trust to l3-untrust-nw action deny source address any service any destination address any
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from l3-trust to l3-vpn action allow source address any service any destination address any
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from l3-voip to l3-untrust-vp action allow source address name 10.129.106.1 service name application-default destination address group ADDR_GROUP_0_PaloAlto
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from l3-wifi to l3-untrust-vp action allow source address name 10.129.107.1 service name application-default destination address group ADDR_GROUP_0_PaloAlto
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from l3-trust to l3-adt action allow source address any service any destination address any
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from l3-trust to l3-untrust-nw action allow source address group ADDR_GROUP_1_PaloAlto service name application-default destination address group ADDR_GROUP_0_PaloAlto
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit sourceS
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from l3-wifi to l3-untrust-nw action allow source address any service any destination address any
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from l3-vpn to l3-trust action allow source address any service name application-default destination address any
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from l3-voip to l3-untrust-vp action allow source address name 10.129.106.0/24 service any destination address group ADDR_GROUP_2_PaloAlto
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from l3-vpn to l3-trust action allow source address any service name application-default destination address name 10.129.101.254
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from l3-adt to l3-untrust-nw action allow source address any service any destination address any
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from l3-untrust-nw to l3-untrust-nw action deny source address group ADDR_GROUP_3_PaloAlto service any destination address name External-static-IP
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from any to any action deny source address any service any destination address any
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from l3-voip to l3-untrust-vp action allow source address any service any destination address any
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from l3-trust to l3-untrust-nw action allow source address any service any destination address any
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from SHVPN to l3-trust action allow source address any service name application-default destination address name 10.129.101.254/32
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+access-rule from l3-trust to l3-trust action allow source address name 10.129.101.254/32 service name application-default destination address any
+    schedule always-on
+    users included all
+    users excluded none
+    no comment
+    logging
+    max-connections 100
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    exit
+
+nat-policy inbound X0 outbound X1 source any translated-source name 67.78.52.50/30 destination any translated-destination original service any translated-service original
+    enable
+    no comment
+    exit
+
+nat-policy inbound X0 outbound X1 source any translated-source original destination any translated-destination original service any translated-service original
+    enable
+    no comment
+    exit
+

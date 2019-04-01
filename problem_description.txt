@@ -1,0 +1,10 @@
+Read and parse a firewall configuration file (SonicWall-config.txt).
+
+1. Read access rule keys. e.g.:
+access-rule from SHVPN to l3-trust action allow source address any service name application-default destination address name 10.129.101.254/32
+
+2. Parse the read access rule keys into:
+from  |    to    |  action  | source address |	   name	     |        service       |    name      |	destination address	|    name      |
+SHVPN |	l3-trust |   allow	|      any	     |  <not needed> |	application-default | <not needed> |	10.129.101.254/32	| <not needed> |
+
+3. Add every parsed entry to a CSV file.
