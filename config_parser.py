@@ -26,10 +26,13 @@ def process_config_file(file_name):
               "or please specify the full valid path.")
         return
 
-    generate_access_rules_csv(content)
-    generate_address_csv(content)
-    generate_address_grp_csv(content)
-    generate_service_csv(content)
+    csv_dir = "{}/parsed_csvs".format(os.getcwd())
+    os.mkdir(csv_dir)
+
+    generate_access_rules_csv(content, csv_dir)
+    generate_address_csv(content, csv_dir)
+    generate_address_grp_csv(content, csv_dir)
+    generate_service_csv(content, csv_dir)
 
 
 if __name__ == "__main__":

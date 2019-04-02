@@ -5,14 +5,16 @@ SERVICE_FILENAME = 'services.csv'
 SERVICE_REGEX = re.compile(r'^service-object.+$', re.I | re.M)
 
 
-def generate_service_csv(content):
+def generate_service_csv(content, csv_dir):
     services = SERVICE_REGEX.findall(content)
     services_obj = []
     for service in services:
         # Create a list of Address objects
         services_obj.append(Service(service))
 
-    with open(SERVICE_FILENAME, mode='w+') as parsed_config:
+    cwd = csv_dir + "/" + SERVICE_FILENAME
+
+    with open(cwd, mode='w+') as parsed_config:
         config_writer = csv.writer(parsed_config, delimiter=',')
         # Write headers
         config_writer.writerow([

@@ -5,14 +5,16 @@ ACCESS_RULE_FILENAME = 'access-rules.csv'
 ACCESS_RULE_REGEX = re.compile(r'^access-rule.+$', re.I | re.M)
 
 
-def generate_access_rules_csv(content):
+def generate_access_rules_csv(content, csv_dir):
     access_rules = ACCESS_RULE_REGEX.findall(content)
     access_rules_obj = []
     for rule in access_rules:
         # Create a list of AccessRule objects
         access_rules_obj.append(AccessRule(rule))
 
-    with open(ACCESS_RULE_FILENAME, mode='w+') as parsed_config:
+    cwd = csv_dir + "/" + ACCESS_RULE_FILENAME
+
+    with open(cwd, mode='w+') as parsed_config:
         config_writer = csv.writer(parsed_config, delimiter=',')
         # Write headers
         config_writer.writerow([

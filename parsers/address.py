@@ -5,14 +5,16 @@ ADDRESS_FILENAME = 'address.csv'
 ADDRESS_REGEX = re.compile(r'^address-object.+$', re.I | re.M)
 
 
-def generate_address_csv(content):
+def generate_address_csv(content, csv_dir):
     addresses = ADDRESS_REGEX.findall(content)
     address_obj = []
     for addr in addresses:
         # Create a list of Address objects
         address_obj.append(Address(addr))
 
-    with open(ADDRESS_FILENAME, mode='w+') as parsed_config:
+    cwd = csv_dir + "/" + ADDRESS_FILENAME
+
+    with open(cwd, mode='w+') as parsed_config:
         config_writer = csv.writer(parsed_config, delimiter=',')
         # Write headers
         config_writer.writerow([

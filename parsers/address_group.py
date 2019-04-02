@@ -5,14 +5,16 @@ ADDRESS_GRP_FILENAME = 'address-grp.csv'
 ADDRESS_GRP_REGEX = re.compile(r'^address-group.+?exit$', re.I | re.M | re.S)
 
 
-def generate_address_grp_csv(content):
+def generate_address_grp_csv(content, csv_dir):
     address_grps = ADDRESS_GRP_REGEX.findall(content)
     address_grp_obj = []
     for addr in address_grps:
         # Create a list of Address objects
         address_grp_obj.append(AddressGroup(addr))
 
-    with open(ADDRESS_GRP_FILENAME, mode='w+') as parsed_config:
+    cwd = csv_dir + "/" + ADDRESS_GRP_FILENAME
+
+    with open(cwd, mode='w+') as parsed_config:
         config_writer = csv.writer(parsed_config, delimiter=',')
         # Write headers
         config_writer.writerow(['ipv4', 'address'])
