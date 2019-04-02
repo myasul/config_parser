@@ -1,4 +1,4 @@
-import re
+import regex as re
 import csv
 
 ACCESS_RULE_FILENAME = 'access-rules.csv'
@@ -48,6 +48,7 @@ class AccessRule:
         return self.rule_from
 
     def get_to(self):
+        self.get_from()  # Make sure from class variable is set
         match = re.search(r'(?<={}\sto).+?(?=\s)'.format(
             self.rule_from),
             self.access_rule, re.I)

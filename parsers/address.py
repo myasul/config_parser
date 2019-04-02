@@ -1,4 +1,4 @@
-import re
+import regex as re
 import csv
 
 ADDRESS_FILENAME = 'address.csv'

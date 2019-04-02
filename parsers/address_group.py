@@ -1,4 +1,4 @@
-import re
+import regex as re
 import csv
 
 ADDRESS_GRP_FILENAME = 'address-grp.csv'
@@ -21,7 +21,6 @@ def generate_address_grp_csv(content):
         for grp in address_grp_obj:
             if len(grp.get_addresses()) > 0:
                 for addr in grp.get_addresses():
-                    print(grp.get_ipv4_grp())
                     config_writer.writerow([
                         grp.get_ipv4_grp(),
                         addr])

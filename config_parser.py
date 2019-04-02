@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import re
+import regex as re
 import csv
 import sys
 import os
@@ -8,6 +8,7 @@ import os
 from parsers.access_rules import generate_access_rules_csv
 from parsers.address import generate_address_csv
 from parsers.address_group import generate_address_grp_csv
+from parsers.services import generate_service_csv
 
 # CSV File names
 SERVICES_FILENAME = 'services.csv'
@@ -25,9 +26,10 @@ def process_config_file(file_name):
               "or please specify the full valid path.")
         return
 
-    # generate_access_rules_csv(content)
-    # generate_address_csv(content)
+    generate_access_rules_csv(content)
+    generate_address_csv(content)
     generate_address_grp_csv(content)
+    generate_service_csv(content)
 
 
 if __name__ == "__main__":
