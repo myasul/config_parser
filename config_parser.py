@@ -9,6 +9,7 @@ from parsers.access_rules import generate_access_rules_csv
 from parsers.address import generate_address_csv
 from parsers.address_group import generate_address_grp_csv
 from parsers.services import generate_service_csv
+from parsers.service_group import generate_service_grp_csv
 
 # CSV File names
 SERVICES_FILENAME = 'services.csv'
@@ -27,12 +28,14 @@ def process_config_file(file_name):
         return
 
     csv_dir = "{}/parsed_csvs".format(os.getcwd())
-    os.mkdir(csv_dir)
+    if not os.path.exists(csv_dir):
+        os.mkdir(csv_dir)
 
     generate_access_rules_csv(content, csv_dir)
     generate_address_csv(content, csv_dir)
     generate_address_grp_csv(content, csv_dir)
     generate_service_csv(content, csv_dir)
+    generate_service_grp_csv(content, csv_dir)
 
 
 if __name__ == "__main__":
