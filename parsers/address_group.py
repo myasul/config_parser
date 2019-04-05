@@ -34,19 +34,19 @@ class AddressGroup:
         self.populate_fields()
 
     def populate_fields(self):
-        self.extract_ipv4()
-        self.extract_addresses()
+        self._extract_ipv4()
+        self._extract_addresses()
 
-    def extract_ipv4(self):
+    def _extract_ipv4(self):
         match = re.search(r'(?<=address-group\sipv4).+(?=\n)',
                           self._address_grp, re.I)
         if match:
             # remove wrapping quotes
-            ipv4 = re.sub(r"^['\"]*?(.+?)['\"]*$", r"\1",
-                          match.group())
+            ipv4 = re.sub(r"^['\"]*(.+?)['\"]*$", r"\1",
+                          match.group().strip())
             self._ipv4 = "{};".format(ipv4.strip())
 
-    def extract_addresses(self):
+    def _extract_addresses(self):
         matches = re.findall(r'(?<=address-object).+(?=\n)',
                              self._address_grp, re.I | re.M)
         if len(matches) > 0:

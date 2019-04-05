@@ -49,16 +49,16 @@ class Address:
         self.populate_fields()
 
     def populate_fields(self):
-        self.extract_ipv4()
-        self.extract_network_details()
+        self._extract_ipv4()
+        self._extract_network_details()
 
-    def extract_ipv4(self):
+    def _extract_ipv4(self):
         match = re.search(r'(?<=address-object\sipv4).+(?=host|network)',
                           self._address, re.I)
         if match:
             self._ipv4 = match.group().strip()
 
-    def extract_network_details(self):
+    def _extract_network_details(self):
         host_match = re.search(r'(?<=host\s).+(?=zone)',
                           self._address, re.I)
         if host_match:

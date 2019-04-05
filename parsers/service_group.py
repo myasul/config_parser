@@ -18,41 +18,48 @@ def generate_service_grp_csv(content, csv_dir):
         config_writer = csv.writer(parsed_config, delimiter=',')
         # Write headers
         config_writer.writerow([
-            'service group name', 'service'])
+            'name', 'members'])
 
         # Write address entries
         for grp in services_grp_obj:
-            if len(grp.get_services()) > 0:
-                for service in grp.get_services():
-                    config_writer.writerow([
-                        grp.get_group_name(),
-                        service])
-            else:
-                config_writer.writerow([
-                    grp.get_group_name(),
-                    ""
-                ])
+            config_writer.writerow([
+                grp.get_group_name(),
+                grp.get_services()])
 
 
 class ServiceGroup:
     def __init__(self, service_group):
-        self.service_group = service_group
-        self.group_name = ""
-        self.services = []
+        self._service_group = service_group
+        self._group_name = ""
+        self._services = ""
+        self.populate_fields()
+
+    def populate_fields(self):
+        self._extract_services()
+        self._extract_group_name()
+
+    def _extract_group_name(self):
+        match = re.search(r'(?<=service-group).+(?=\n)',
+                          self._service_group, re.I)
+        if match:
+            # remove wrapping quotes
+            name = re.sub(r"^['\"]*(.+?)['\"]*$", r"\1",
+                          match.group().strip())
+            self._group_name = "{};".format(name.strip())
+
+    def _extract_services(self):
+        matches = re.findall(r'(?<=service-object).+(?=\n)',
+                             self._service_group, re.I | re.M)
+        services = []
+        for match in matches:
+            service = re.sub(r"^['\"]*(.+?)['\"]*$", r"\1",
+                          match.strip())
+            services.append(service)
+        
+        self._services = ','.join(services)
 
     def get_group_name(self):
-        match = re.search(r'(?<=service-group).+(?=\n)',
-                          self.service_group, re.I)
-        if match:
-            self.service_name = match.group().strip()
-
-        return self.service_name
+        return self._group_name
 
     def get_services(self):
-        self.services = []
-        matches = re.findall(r'(?<=service-object).+(?=\n)',
-                             self.service_group, re.I | re.M)
-        for match in matches:
-            self.services.append(match.strip())
-
-        return self.services
+        return self._services
