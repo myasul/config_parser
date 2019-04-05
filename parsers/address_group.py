@@ -17,41 +17,44 @@ def generate_address_grp_csv(content, csv_dir):
     with open(cwd, mode='w+') as parsed_config:
         config_writer = csv.writer(parsed_config, delimiter=',')
         # Write headers
-        config_writer.writerow(['ipv4', 'address'])
+        config_writer.writerow(['name', 'members'])
 
         # Write address entries
         for grp in address_grp_obj:
-            if len(grp.get_addresses()) > 0:
-                for addr in grp.get_addresses():
-                    config_writer.writerow([
-                        grp.get_ipv4_grp(),
-                        addr])
-            else:
-                config_writer.writerow([
-                    grp.get_ipv4_grp(),
-                    ""
-                ])
+            config_writer.writerow([
+                grp.get_ipv4(),
+                grp.get_addresses()])
 
 
 class AddressGroup:
     def __init__(self, address_grp):
-        self.address_grp = address_grp
-        self.ipv4_grp = ""
-        self.addresses = []
+        self._address_grp = address_grp
+        self._ipv4 = ""
+        self._addresses = ""
+        self.populate_fields()
 
-    def get_ipv4_grp(self):
+    def populate_fields(self):
+        self.extract_ipv4()
+        self.extract_addresses()
+
+    def extract_ipv4(self):
         match = re.search(r'(?<=address-group\sipv4).+(?=\n)',
-                          self.address_grp, re.I)
+                          self._address_grp, re.I)
         if match:
-            self.ipv4_grp = match.group().strip()
+            # remove wrapping quotes
+            ipv4 = re.sub(r"^['\"]*?(.+?)['\"]*$", r"\1",
+                          match.group())
+            self._ipv4 = "{};".format(ipv4.strip())
 
-        return self.ipv4_grp
+    def extract_addresses(self):
+        matches = re.findall(r'(?<=address-object).+(?=\n)',
+                             self._address_grp, re.I | re.M)
+        if len(matches) > 0:
+            self._addresses = ','.join([match.strip().lstrip("ipv4 ")
+                                        for match in matches])
+
+    def get_ipv4(self):
+        return self._ipv4
 
     def get_addresses(self):
-        self.addresses = []
-        matches = re.findall(r'(?<=address-object).+(?=\n)',
-                             self.address_grp, re.I | re.M)
-        for match in matches:
-            self.addresses.append(match.strip())
-
-        return self.addresses
+        return self._addresses
