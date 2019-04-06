@@ -6,10 +6,12 @@ address-object ipv4 ""10.129.101.254/32 10.129.101.254"" host 10.129.101.254 zon
 
 address-group ipv4 ""All U0 Management IP"""
     "   address-object ipv4 ""U0 IP"""
+    "   address-object ipv4 ""EM MY"""
         exit
 
 address-group ipv4 ""All U1 Management IP"""
     "   address-object ipv4 ""U1 IP"""
+    "   address-object ipv4 ""EM MY"""
         exit
 
 
