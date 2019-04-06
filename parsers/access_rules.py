@@ -1,5 +1,6 @@
 import regex as re
 import csv
+import tools.helper as helper
 
 ACCESS_RULE_FILENAME = 'access-rules.csv'
 ACCESS_RULE_REGEX = re.compile(r'^access-rule.+$', re.I | re.M)
@@ -34,71 +35,56 @@ def generate_access_rules_csv(content, csv_dir):
 
 class AccessRule:
     def __init__(self, rule):
-        self.access_rule = rule
-        self.rule_from = ""
-        self.rule_to = ""
-        self.action = ""
-        self.src_addr = ""
-        self.service = ""
+        self._access_rule = rule
+        self._rule_from = ""
+        self._rule_to = ""
+        self._action = ""
+        self._src_addr = ""
+        self._service = ""
+        self._dest_addr = ""
+        self.populate_fields()
+
+    def populate_fields(self):
+        self._rule_from = helper.extract_field_name(
+            self._access_rule, r'(?<=access-rule\sfrom).+(?=\sto)')
+        self._rule_to = helper.extract_field_name(
+            self._access_rule, r'(?<=\sto\s).+?(?=\s)')
+        self._action = helper.extract_field_name(
+            self._access_rule, r'(?<=action).+?(?=\s)')
+        self._src_addr = self._get_type(r'(?<=source\saddress).+')
+        self._service = self._get_type(r'(?<=service).+?(?=destination)')
+        self._dest_addr = self._get_type(r'(?<=destination\saddress).+?(?=$)')
+
+    def _get_type(self, pattern):
+        match = re.search(pattern, self._access_rule)
+        if match:
+            field = match.group().strip()
+            if re.search(r'^any', field):
+                return 'any'
+            elif re.search(r'^name', field):
+                pattern = r'(?<=name\s)((""[^"]+"")|([^\s]+))'
+                return helper.extract_field_name(field, pattern)
+            elif re.search(r'^group', field):
+                pattern = r'(?<=group\s)((""[^"]+"")|([^\s]+))'
+                return helper.extract_field_name(field, pattern)
+            elif field is not None:
+                return field.strip()
+        return ""
 
     def get_from(self):
-        match = re.search(r'(?<=access-rule\sfrom).+(?=\sto)',
-                          self.access_rule, re.I)
-        if match:
-            self.rule_from = match.group().strip()
-
-        return self.rule_from
+        return self._rule_from
 
     def get_to(self):
-        self.get_from()  # Make sure from class variable is set
-        match = re.search(r'(?<={}\sto).+?(?=\s)'.format(
-            self.rule_from),
-            self.access_rule, re.I)
-        if match:
-            self.rule_to = match.group().strip()
-
-        return self.rule_to
+        return self._rule_to
 
     def get_action(self):
-        match = re.search(r'(?<=action).+?(?=\s)',
-                          self.access_rule, re.I)
-        if match:
-            self.action = match.group().strip()
-
-        return self.action
+        return self._action
 
     def get_source_address(self):
-        match = re.search(r'(?<=source\saddress).+?(?=service)',
-                          self.access_rule, re.I)
-        if match:
-            self.src_addr = self.get_type(match.group().strip())
-        return self.src_addr
+        return self._src_addr
 
     def get_service(self):
-        match = re.search(r'(?<=service).+?(?=destination)',
-                          self.access_rule, re.I)
-        if match:
-            self.service = self.get_type(match.group().strip())
-        return self.service
+        return self._service
 
     def get_destination_address(self):
-        match = re.search(r'(?<=destination\saddress).+?(?=$)',
-                          self.access_rule, re.I)
-        if match:
-            self.service = self.get_type(match.group().strip())
-        return self.service
-
-    def get_type(self, data):
-        if 'any' in data:
-            return 'any'
-        elif 'name' in data:
-            name_match = re.search(r'(?<=name).+', data, re.I)
-            if name_match:
-                return name_match.group().strip()
-        elif 'group' in data:
-            group_match = re.search(r'(?<=group).+', data, re.I)
-            if group_match:
-                return group_match.group().strip()
-        elif data is not None:
-            return data.strip()
-        return ""
+        return self._dest_addr

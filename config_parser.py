@@ -31,7 +31,7 @@ def process_config_file(file_name):
         print("[ERROR] {} cannot be found. ".format(file_name) +
               "Please put it beside the config parser script " +
               "or please specify the full valid path.")
-        return
+        return False
 
     csv_dir = "{}/parsed_csvs".format(os.getcwd())
     if not os.path.exists(csv_dir):
@@ -42,15 +42,17 @@ def process_config_file(file_name):
     generate_address_grp_csv(content, csv_dir)
     generate_service_csv(content, csv_dir)
     generate_service_grp_csv(content, csv_dir)
+    return True
 
 
 def main():
     try:
         file_name = sys.argv[1].strip()
-        process_config_file(file_name)
-        print(
-            "[CONFIRMATION] Config file parsed successfully. " +
-            "Please see CSV files.")
+        success = process_config_file(file_name)
+        if success:
+            print(
+                "[CONFIRMATION] Config file parsed successfully. " +
+                "Please see CSV files.")
     except IndexError:
         print(
             "[ERROR] Please input filename. e.g. " +
