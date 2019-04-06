@@ -1,6 +1,6 @@
 import regex as re
 import csv
-from tools.helper import remove_wrapping_quotes
+import tools.helper as helper
 
 ADDRESS_GRP_FILENAME = 'address-grp.csv'
 ADDRESS_GRP_REGEX = re.compile(r'^address-group.+?exit$', re.I | re.M | re.S)
@@ -35,23 +35,17 @@ class AddressGroup:
         self.populate_fields()
 
     def populate_fields(self):
-        self._extract_ipv4()
-        self._extract_addresses()
-
-    def _extract_ipv4(self):
-        match = re.search(r'(?<=address-group\sipv4).+(?=\n)',
-                          self._address_grp, re.I)
-        if match:
-            # remove wrapping quotes
-            self._ipv4 = "{};".format(remove_wrapping_quotes(match.group()))
+        self._ipv4 = helper.extract_field_name(
+            self._address_grp, r'(?<=address-group\sipv4).+(?=\n)')
+        self._addresses = self._extract_addresses()
 
     def _extract_addresses(self):
         matches = re.findall(r'(?<=address-object\sipv4).+(?=\n)',
                              self._address_grp, re.I | re.M)
-        addresses = [remove_wrapping_quotes(
+        addresses = [helper.remove_wrapping_quotes(
             match.strip()) for match in matches]
 
-        self._addresses = ','.join(addresses)
+        return ','.join(addresses)
 
     def get_ipv4(self):
         return self._ipv4
