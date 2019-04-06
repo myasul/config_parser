@@ -1,5 +1,6 @@
 import regex as re
 import csv
+import tools.helper as helper
 
 SERVICE_GRP_FILENAME = 'service-group.csv'
 SERVICE_GRP_REGEX = re.compile(r'^service-group.+?exit$', re.I | re.M | re.S)
@@ -35,28 +36,19 @@ class ServiceGroup:
         self.populate_fields()
 
     def populate_fields(self):
-        self._extract_services()
-        self._extract_group_name()
-
-    def _extract_group_name(self):
-        match = re.search(r'(?<=service-group).+(?=\n)',
-                          self._service_group, re.I)
-        if match:
-            # remove wrapping quotes
-            name = re.sub(r"^['\"]*(.+?)['\"]*$", r"\1",
-                          match.group().strip())
-            self._group_name = "{};".format(name.strip())
+        self._group_name = helper.extract_field_name(
+            self._service_group, r'(?<=service-group\s)')
+        self._services = self._extract_services()
 
     def _extract_services(self):
         matches = re.findall(r'(?<=service-object).+(?=\n)',
                              self._service_group, re.I | re.M)
         services = []
         for match in matches:
-            service = re.sub(r"^['\"]*(.+?)['\"]*$", r"\1",
-                          match.strip())
+            service = helper.remove_wrapping_quotes(match.strip())
             services.append(service)
-        
-        self._services = ','.join(services)
+
+        return','.join(services)
 
     def get_group_name(self):
         return self._group_name
