@@ -52,10 +52,10 @@ class Address:
     def populate_fields(self):
         self._ipv4 = helper.extract_field_name(
             self._address,
-            r'(?<=ipv4\s)((""[^"]+"")|([^\s]+))')
+            r'(?<=ipv4\s)')
         self._host = helper.extract_field_name(
             self._address,
-            r'(?<=host\s)((""[^"]+"")|([^\s]+))')
+            r'(?<=host\s)')
         if not self._host:
             self._extract_network_details()
 
