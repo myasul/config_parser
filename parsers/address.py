@@ -1,5 +1,6 @@
 import regex as re
 import csv
+import tools.helper as helper
 
 ADDRESS_FILENAME = 'address.csv'
 ADDRESS_REGEX = re.compile(r'^address-object.+$', re.I | re.M)
@@ -26,12 +27,12 @@ def generate_address_csv(content, csv_dir):
                 config_writer.writerow([
                     addr.get_ipv4(),
                     addr.get_host(),
-                    '',])
+                    '', ])
             elif addr.get_network():
                 config_writer.writerow([
                     addr.get_ipv4(),
                     addr.get_network(),
-                    addr.get_subnet(),])
+                    addr.get_subnet(), ])
             else:
                 config_writer.writerow([
                     addr.get_ipv4(),
@@ -49,30 +50,23 @@ class Address:
         self.populate_fields()
 
     def populate_fields(self):
-        self._extract_ipv4()
-        self._extract_network_details()
-
-    def _extract_ipv4(self):
-        match = re.search(r'(?<=address-object\sipv4).+(?=host|network)',
-                          self._address, re.I)
-        if match:
-            self._ipv4 = match.group().strip()
+        self._ipv4 = helper.extract_field_name(
+            self._address,
+            r'(?<=ipv4\s)((""[^"]+"")|([^\s]+))')
+        self._host = helper.extract_field_name(
+            self._address,
+            r'(?<=host\s)((""[^"]+"")|([^\s]+))')
+        if not self._host:
+            self._extract_network_details()
 
     def _extract_network_details(self):
-        host_match = re.search(r'(?<=host\s).+(?=zone)',
-                          self._address, re.I)
-        if host_match:
-            self._host = host_match.group().strip()
-        else:
-            network_match = re.search(r'(?<=network\s).+(?=zone)',
-                    self._address, re.I)
-            if network_match:
-                details_match = re.search(r'(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})\s+' +
-                     r'(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})',
-                     network_match.group())
-                if details_match:
-                    self._network = details_match.group(1)
-                    self._subnet = details_match.group(2)
+        network_match = re.search(r'(?<=network\s)' +
+                                  r'(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})\s+' +
+                                  r'(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})',
+                                  self._address, re.I)
+        if network_match:
+            self._network = network_match.group(1)
+            self._subnet = network_match.group(2)
 
     def get_ipv4(self):
         return self._ipv4

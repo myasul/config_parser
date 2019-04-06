@@ -1,3 +1,9 @@
+address-object ipv4 ""panw-known ip-list"" network 0.0.0.0 255.255.255.255 zone LAN
+
+address-object ipv4 RU network 0.0.0.0 255.255.255.255 zone LAN
+
+address-object ipv4 ""10.129.101.254/32 10.129.101.254"" host 10.129.101.254 zone l3-trust
+
 address-group ipv4 ""All U0 Management IP"""
     "   address-object ipv4 ""U0 IP"""
         exit
