@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""Firewall Configuration Parser
+
+This script parses a firewall configuration text file and creates
+multiple CSVs that contains that the parsed data.
+"""
+
 import regex as re
 import csv
 import sys
@@ -38,7 +44,7 @@ def process_config_file(file_name):
     generate_service_grp_csv(content, csv_dir)
 
 
-if __name__ == "__main__":
+def main():
     try:
         file_name = sys.argv[1].strip()
         process_config_file(file_name)
@@ -49,3 +55,7 @@ if __name__ == "__main__":
         print(
             "[ERROR] Please input filename. e.g. " +
             "'/config_parser test_config.txt'")
+
+
+if __name__ == "__main__":
+    main()

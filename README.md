@@ -7,6 +7,7 @@ __Pre-requisites:__
 * Install Python 3. http://docs.python-guide.org/en/latest/starting/installation/
 * Install script dependencies. Please run the command below to install all dependencies:
   `pip install --user -r requirements.txt`
+* The script can only be run in a Linux flavored machine.
 
 __Steps To Use:__
 1. There are 6 scripts needed to be able to run the script:
@@ -26,3 +27,4 @@ __Steps To Use:__
    *  address-grp.csv
    *  services.csv
    *  service-group.csv
+

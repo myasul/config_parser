@@ -1,0 +1,101 @@
+address-group ipv4 ""All U0 Management IP"""
+    "   address-object ipv4 ""U0 IP"""
+        exit
+
+address-group ipv4 ""All U1 Management IP"""
+    "   address-object ipv4 ""U1 IP"""
+        exit
+
+
+access-rule from VPN to DMZ action allow source address name ""VPN DHCP Clients"" destination address name ""WAN RemoteAccess Networks"""
+    id 318
+    enable
+    from VPN
+    to DMZ
+    action allow
+"    source address name ""VPN DHCP Clients"""
+    source port any
+    service any
+"    destination address name ""WAN RemoteAccess Networks"""
+    schedule always-on
+    users included all
+    users excluded none
+"    comment ""Auto added for inbound VPN - WAN GroupVPN"""
+    fragments
+    logging
+    no flow-reporting
+    no botnet-filter
+    no geo-ip-filter
+    no packet-monitoring
+    no management
+    max-connections 100
+    priority manual 8
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    no quality-of-service class-of-service
+    exit
+
+access-rule from VPN to DMZ action allow destination address name ""WLAN RemoteAccess Networks"""
+    id 319
+    no enable
+    from VPN
+    to DMZ
+    action allow
+    source address any
+    source port any
+    service any
+"    destination address name ""WLAN RemoteAccess Networks"""
+    schedule always-on
+    users included all
+    users excluded none
+"    comment ""Auto added for inbound VPN - WLAN GroupVPN"""
+    fragments
+    logging
+    no flow-reporting
+    no botnet-filter
+    no geo-ip-filter
+    no packet-monitoring
+    no management
+    max-connections 100
+    priority manual 9
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    no quality-of-service class-of-service
+    exit
+
+access-rule from VPN to VPN action allow service name ""SonicpointN Layer3 Management"" destination address group ""All Interface IP"""
+    id 323
+    enable
+    from VPN
+    to VPN
+    action allow
+    source address any
+    source port any
+"    service name ""SonicpointN Layer3 Management"""
+"    destination address group ""All Interface IP"""
+    schedule always-on
+    users included all
+    users excluded none
+"    comment ""Auto added for VPN enabled management via this SA"""
+    fragments
+    logging
+    no flow-reporting
+    botnet-filter
+    geo-ip-filter
+    no packet-monitoring
+    management
+    max-connections 100
+    priority manual 1
+    tcp timeout 15
+    udp timeout 30
+    no connection-limit source
+    no connection-limit destination
+    quality-of-service dscp preserve
+    no quality-of-service class-of-service
+    exit
