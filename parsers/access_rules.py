@@ -46,14 +46,14 @@ class AccessRule:
 
     def populate_fields(self):
         self._rule_from = helper.extract_field_name(
-            self._access_rule, r'(?<=access-rule\sfrom).+(?=\sto)')
+            self._access_rule, r'(?<=from\s)')
         self._rule_to = helper.extract_field_name(
-            self._access_rule, r'(?<=\sto\s).+?(?=\s)')
+            self._access_rule, r'(?<=to\s)')
         self._action = helper.extract_field_name(
-            self._access_rule, r'(?<=action).+?(?=\s)')
+            self._access_rule, r'(?<=action\s)')
         self._src_addr = self._get_type(r'(?<=source\saddress).+')
-        self._service = self._get_type(r'(?<=service).+?(?=destination)')
-        self._dest_addr = self._get_type(r'(?<=destination\saddress).+?(?=$)')
+        self._service = self._get_type(r'(?<=service\s).+')
+        self._dest_addr = self._get_type(r'(?<=destination\saddress\s).+')
 
     def _get_type(self, pattern):
         match = re.search(pattern, self._access_rule)
@@ -62,10 +62,10 @@ class AccessRule:
             if re.search(r'^any', field):
                 return 'any'
             elif re.search(r'^name', field):
-                pattern = r'(?<=name\s)((""[^"]+"")|([^\s]+))'
+                pattern = r'(?<=name\s)'
                 return helper.extract_field_name(field, pattern)
             elif re.search(r'^group', field):
-                pattern = r'(?<=group\s)((""[^"]+"")|([^\s]+))'
+                pattern = r'(?<=group\s)'
                 return helper.extract_field_name(field, pattern)
             elif field is not None:
                 return field.strip()

@@ -36,9 +36,10 @@ def extract_field_name(data, pattern, flag=None):
         The needed field extracted from the regex pattern
     """
     if flag:
-        match = re.search(r'{}'.format(pattern), data, flags=flag)
+        match = re.search(
+            r'{}((""[^"]+"")|([^\s]+))'.format(pattern), data, flags=flag)
     else:
-        match = re.search(r'{}'.format(pattern), data)
+        match = re.search(r'{}((""[^"]+"")|([^\s]+))'.format(pattern), data)
     if match:
         field = remove_wrapping_quotes(match.group().strip())
         return field.strip()
