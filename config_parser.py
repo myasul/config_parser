@@ -5,6 +5,11 @@ This script parses a firewall configuration text file and creates
 multiple CSVs that contains that the parsed data.
 """
 
+# TODO :: LIST
+# 1. Create logging
+# 2. Add meaningful comments
+# 3. Check if classes can be more concise. e.g. Add a parent class
+
 import regex as re
 import csv
 import sys
