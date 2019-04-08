@@ -3,7 +3,7 @@ import csv
 import tools.helper as helper
 
 ACCESS_RULE_FILENAME = 'access-rules.csv'
-ACCESS_RULE_REGEX = re.compile(r'^access-rule.+$', re.I | re.M)
+ACCESS_RULE_REGEX = re.compile(r'^access-rule.+?(?=exit)', re.I | re.M | re.S)
 
 
 def generate_access_rules_csv(content, csv_dir):
@@ -18,9 +18,11 @@ def generate_access_rules_csv(content, csv_dir):
     with open(cwd, mode='w+') as parsed_config:
         config_writer = csv.writer(parsed_config, delimiter=',')
         # Write headers
+
         config_writer.writerow([
             'from', 'to', 'action',
-            'source address', 'service', 'destination address'])
+            'source address', 'service', 'destination address',
+            'comment'])
 
         # Write access rule entries
         for rule in access_rules_obj:
@@ -30,7 +32,8 @@ def generate_access_rules_csv(content, csv_dir):
                 rule.get_action(),
                 rule.get_source_address(),
                 rule.get_service(),
-                rule.get_destination_address()])
+                rule.get_destination_address(),
+                rule.get_comment()])
 
 
 class AccessRule:
@@ -39,14 +42,15 @@ class AccessRule:
         self._rule_from = ""
         self._rule_to = ""
         self._action = ""
-        self._src_addr = ""
-        self._service = ""
-        self._dest_addr = ""
+        self._src_addr = "any"
+        self._service = "any"
+        self._dest_addr = "any"
+        self._comment = ""
         self.populate_fields()
 
     def populate_fields(self):
         self._rule_from = helper.extract_field_name(
-            self._access_rule, r'(?<=from\s)')
+            self._access_rule, r'(?<=from\s)', flag=re.MULTILINE)
         self._rule_to = helper.extract_field_name(
             self._access_rule, r'(?<=to\s)')
         self._action = helper.extract_field_name(
@@ -54,6 +58,8 @@ class AccessRule:
         self._src_addr = self._get_type(r'(?<=source\saddress).+')
         self._service = self._get_type(r'(?<=service\s).+')
         self._dest_addr = self._get_type(r'(?<=destination\saddress\s).+')
+        self._comment = helper.extract_field_name(
+            self._access_rule, r'(?<=comment\s)')
 
     def _get_type(self, pattern):
         match = re.search(pattern, self._access_rule)
@@ -88,3 +94,6 @@ class AccessRule:
 
     def get_destination_address(self):
         return self._dest_addr
+
+    def get_comment(self):
+        return self._comment
