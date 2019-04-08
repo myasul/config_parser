@@ -1,6 +1,10 @@
+# Mac OS files
+.DS_Store
+
 # Parsed config file
 config-parsed.csv
 parsed_csvs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
