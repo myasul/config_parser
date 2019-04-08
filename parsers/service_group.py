@@ -1,12 +1,10 @@
 import regex as re
 import csv
 import tools.helper as helper
-
-SERVICE_GRP_FILENAME = 'service-group.csv'
-SERVICE_GRP_REGEX = re.compile(r'^service-group.+?exit$', re.I | re.M | re.S)
+from tools.const import SERVICE_GRP_FILENAME, SERVICE_GRP_REGEX, FILE_FORMAT
 
 
-def generate_service_grp_csv(content, csv_dir):
+def generate_service_grp_csv(content, csv_dir, file_format):
     service_grps = SERVICE_GRP_REGEX.findall(content)
     services_grp_obj = []
     for grp in service_grps:
@@ -16,7 +14,8 @@ def generate_service_grp_csv(content, csv_dir):
     cwd = csv_dir + "/" + SERVICE_GRP_FILENAME
 
     with open(cwd, mode='w+') as parsed_config:
-        config_writer = csv.writer(parsed_config, delimiter=',')
+        config_writer = csv.writer(
+            parsed_config, delimiter=FILE_FORMAT.get(file_format, ','))
         # Write headers
         config_writer.writerow([
             'name', 'members'])

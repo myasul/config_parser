@@ -1,12 +1,10 @@
 import regex as re
 import csv
 import tools.helper as helper
-
-ACCESS_RULE_FILENAME = 'access-rules.csv'
-ACCESS_RULE_REGEX = re.compile(r'^access-rule.+?(?=exit)', re.I | re.M | re.S)
+from tools.const import ACCESS_RULE_FILENAME, ACCESS_RULE_REGEX, FILE_FORMAT
 
 
-def generate_access_rules_csv(content, csv_dir):
+def generate_access_rules_csv(content, csv_dir, file_format):
     access_rules = ACCESS_RULE_REGEX.findall(content)
     access_rules_obj = []
     for rule in access_rules:
@@ -16,7 +14,8 @@ def generate_access_rules_csv(content, csv_dir):
     cwd = csv_dir + "/" + ACCESS_RULE_FILENAME
 
     with open(cwd, mode='w+') as parsed_config:
-        config_writer = csv.writer(parsed_config, delimiter=',')
+        config_writer = csv.writer(
+            parsed_config, delimiter=FILE_FORMAT.get(file_format, ','))
         # Write headers
 
         config_writer.writerow([

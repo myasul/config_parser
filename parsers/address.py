@@ -1,12 +1,10 @@
 import regex as re
 import csv
 import tools.helper as helper
-
-ADDRESS_FILENAME = 'address.csv'
-ADDRESS_REGEX = re.compile(r'^address-object.+$', re.I | re.M)
+from tools.const import ADDRESS_REGEX, ADDRESS_FILENAME, FILE_FORMAT
 
 
-def generate_address_csv(content, csv_dir):
+def generate_address_csv(content, csv_dir, file_format):
     addresses = ADDRESS_REGEX.findall(content)
     address_obj = []
     for addr in addresses:
@@ -16,7 +14,8 @@ def generate_address_csv(content, csv_dir):
     cwd = csv_dir + "/" + ADDRESS_FILENAME
 
     with open(cwd, mode='w+') as parsed_config:
-        config_writer = csv.writer(parsed_config, delimiter=',')
+        config_writer = csv.writer(
+            parsed_config, delimiter=FILE_FORMAT.get(file_format, ','))
         # Write headers
         config_writer.writerow([
             'ipv4', 'network_host', 'subnet'])

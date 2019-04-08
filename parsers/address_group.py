@@ -1,12 +1,10 @@
 import regex as re
 import csv
 import tools.helper as helper
-
-ADDRESS_GRP_FILENAME = 'address-grp.csv'
-ADDRESS_GRP_REGEX = re.compile(r'^address-group.+?exit$', re.I | re.M | re.S)
+from tools.const import ADDRESS_GRP_REGEX, ADDRESS_GRP_FILENAME, FILE_FORMAT
 
 
-def generate_address_grp_csv(content, csv_dir):
+def generate_address_grp_csv(content, csv_dir, file_format):
     address_grps = ADDRESS_GRP_REGEX.findall(content)
     address_grp_obj = []
     for addr in address_grps:
@@ -16,7 +14,8 @@ def generate_address_grp_csv(content, csv_dir):
     cwd = csv_dir + "/" + ADDRESS_GRP_FILENAME
 
     with open(cwd, mode='w+') as parsed_config:
-        config_writer = csv.writer(parsed_config, delimiter=',')
+        config_writer = csv.writer(
+            parsed_config, delimiter=FILE_FORMAT.get(file_format, ','))
         # Write headers
         config_writer.writerow(['name', 'members'])
 

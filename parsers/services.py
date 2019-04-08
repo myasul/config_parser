@@ -1,12 +1,10 @@
 import regex as re
 import csv
 import tools.helper as helper
-
-SERVICE_FILENAME = 'services.csv'
-SERVICE_REGEX = re.compile(r'^service-object.+$', re.I | re.M)
+from tools.const import SERVICE_REGEX, SERVICE_FILENAME, FILE_FORMAT
 
 
-def generate_service_csv(content, csv_dir):
+def generate_service_csv(content, csv_dir, file_format):
     services = SERVICE_REGEX.findall(content)
     services_obj = []
     for service in services:
@@ -16,7 +14,8 @@ def generate_service_csv(content, csv_dir):
     cwd = csv_dir + "/" + SERVICE_FILENAME
 
     with open(cwd, mode='w+') as parsed_config:
-        config_writer = csv.writer(parsed_config, delimiter=',')
+        config_writer = csv.writer(
+            parsed_config, delimiter=FILE_FORMAT.get(file_format, ','))
         # Write headers
         config_writer.writerow([
             'service-object', 'protocol', 'destination-port'])
