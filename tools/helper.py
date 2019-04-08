@@ -36,6 +36,10 @@ def extract_field_name(data, pattern, flag=None):
         The needed field extracted from the regex pattern
     """
     if flag:
+        # Field has either single or multiple values.
+        # If the field has multiple values it is wrapped in 2 double quotes
+        # and if the field has a single value there is no quotes wrapped in it.
+        # The regex expression below fulfill both conditions
         match = re.search(
             r'{}((""[^"]+"")|([^\s]+))'.format(pattern), data, flags=flag)
     else:

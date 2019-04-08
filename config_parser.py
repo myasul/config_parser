@@ -46,6 +46,8 @@ SERVICES_FILENAME = 'services.csv'
 SERVICES_GRP_FILENAME = 'services-grp.csv'
 
 
+# Main method that combines all the parsers and calls
+# them one by one to create csv/ssv files.
 def process_config_file(file_path, file_format):
     if not file_format:
         print("[ERROR] File format not specified."

@@ -36,6 +36,8 @@ class Service:
         self._destination_port = ""
         self.populate_fields()
 
+    # Populate fields by extracting the needed data
+    # using regular expressions.
     def populate_fields(self):
         self._service_name = helper.extract_field_name(
             self._service, r'(?<=service-object\s)')

@@ -47,6 +47,8 @@ class AccessRule:
         self._comment = ""
         self.populate_fields()
 
+    # Populate fields by extracting the needed data
+    # using regular expressions.
     def populate_fields(self):
         self._rule_from = helper.extract_field_name(
             self._access_rule, r'(?<=from\s)', flag=re.MULTILINE)

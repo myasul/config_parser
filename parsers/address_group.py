@@ -33,6 +33,8 @@ class AddressGroup:
         self._addresses = ""
         self.populate_fields()
 
+    # Populate fields by extracting the needed data
+    # using regular expressions.
     def populate_fields(self):
         self._ipv4 = helper.extract_field_name(
             self._address_grp, r'(?<=address-group\sipv4\s)')

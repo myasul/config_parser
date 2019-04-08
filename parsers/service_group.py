@@ -34,6 +34,8 @@ class ServiceGroup:
         self._services = ""
         self.populate_fields()
 
+    # Populate fields by extracting the needed data
+    # using regular expressions.
     def populate_fields(self):
         self._group_name = helper.extract_field_name(
             self._service_group, r'(?<=service-group\s)')
