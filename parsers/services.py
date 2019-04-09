@@ -44,16 +44,29 @@ class Service:
         self._extract_network_details()
 
     def _extract_network_details(self):
-        match = re.search(r'(TCP|UDP)\s*(.+)', self._service)
+        match = re.search(
+            r'\s+(?P<protocol>TCP|UDP|ICMPV6|ICMP)\s+(?P<ports>.+)',
+            self._service)
 
-        # Extract protocol
+        # If the protocol is not included in the list of protocol in the
+        # previous regex, try to extract the protocol and ports using
+        # the regex below
+        if not match:
+            match = re.search(r'(service-object\s((""[^"]+"")|[^\s]+)\s)' +
+                              r'(?P<protocol>[^\s]+)\s+(?P<ports>.+)',
+                              self._service)
+
+        # Validate if all network columns have been extracted
         if match:
-            self._protocol = match.group(1) if match.group else ""
+            network_details = match.groupdict()
+            # Extract protocol
+            self._protocol = network_details.get('protocol')
 
             # Extract and format destination port
-            if match.group(2):
+            if network_details.get('ports'):
                 port_match = re.search(
-                    r"(?P<port1>\d+)[^\d]+(?P<port2>\d+)", match.group(2))
+                    r"^(?P<port1>\d+)[^\d]+(?P<port2>\d+)",
+                    network_details.get('ports').strip())
                 if port_match:
                     self._destination_port = "{}-{}".format(
                         port_match['port1'], port_match['port2'])
