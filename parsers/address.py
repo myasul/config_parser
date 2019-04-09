@@ -53,20 +53,22 @@ class Address:
     def populate_fields(self):
         self._ip = helper.extract_field_name(
             self._address,
-            r'(?<=(ipv4|ipv6)\s)')
+            r'(?<=\s(ipv4|ipv6)\s)')
         self._host = helper.extract_field_name(
             self._address,
-            r'(?<=host\s)')
+            r'(?<=\shost\s)')
         if not self._host:
             self._extract_network_details()
 
     def _extract_network_details(self):
-        network_match = re.search(r'(?<=network\s)' +
+        network_match = re.search(r'(?<=\snetwork\s)' +
                                   r'(?P<network>[^\s]+)\s+(?P<subnet>[^\s]+)',
                                   self._address, re.I)
         if network_match:
-            self._network = network_match['network']
-            self._subnet = network_match['subnet']
+            network_details = network_match.groupdict()
+
+            self._network = network_details.get('network')
+            self._subnet = network_details.get('subnet')
 
     def get_ip(self):
         return self._ip

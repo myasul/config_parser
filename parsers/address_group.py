@@ -22,21 +22,21 @@ def generate_address_grp_csv(content, csv_dir, file_format):
         # Write address entries
         for grp in address_grp_obj:
             config_writer.writerow([
-                grp.get_ipv4(),
+                grp.get_ip(),
                 grp.get_addresses()])
 
 
 class AddressGroup:
     def __init__(self, address_grp):
         self._address_grp = address_grp
-        self._ipv4 = ""
+        self._ip = ""
         self._addresses = ""
         self.populate_fields()
 
     # Populate fields by extracting the needed data
     # using regular expressions.
     def populate_fields(self):
-        self._ipv4 = helper.extract_field_name(
+        self._ip = helper.extract_field_name(
             self._address_grp, r'(?<=^address-group\s(ipv4|ipv6)\s)')
         self._addresses = self._extract_addresses()
 
@@ -49,8 +49,8 @@ class AddressGroup:
 
         return ','.join(addresses)
 
-    def get_ipv4(self):
-        return self._ipv4
+    def get_ip(self):
+        return self._ip
 
     def get_addresses(self):
         return self._addresses

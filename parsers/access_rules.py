@@ -51,16 +51,16 @@ class AccessRule:
     # using regular expressions.
     def populate_fields(self):
         self._rule_from = helper.extract_field_name(
-            self._access_rule, r'(?<=from\s)', flag=re.MULTILINE)
+            self._access_rule, r'(?<=\sfrom\s)', flag=re.MULTILINE)
         self._rule_to = helper.extract_field_name(
-            self._access_rule, r'(?<=to\s)')
+            self._access_rule, r'(?<=\sto\s)')
         self._action = helper.extract_field_name(
-            self._access_rule, r'(?<=action\s)')
-        self._src_addr = self._get_type(r'(?<=source\saddress).+')
-        self._service = self._get_type(r'(?<=service\s).+')
-        self._dest_addr = self._get_type(r'(?<=destination\saddress\s).+')
+            self._access_rule, r'(?<=\saction\s)')
+        self._src_addr = self._get_type(r'(?<=\ssource\saddress).+')
+        self._service = self._get_type(r'(?<=\sservice\s).+')
+        self._dest_addr = self._get_type(r'(?<=\sdestination\saddress\s).+')
         self._comment = helper.extract_field_name(
-            self._access_rule, r'(?<=comment\s)')
+            self._access_rule, r'(?<=\scomment\s)')
 
     def _get_type(self, pattern):
         match = re.search(pattern, self._access_rule)

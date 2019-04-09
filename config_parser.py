@@ -28,6 +28,10 @@ sudo chmod +x config_parser.py
 # 4. Implement argparser library - DONE
 # 5. Implement Generator comprehension
 
+# CURRENT LIMITATION
+# 1. If the column that is surrounded by spaces appeared more than once, it may
+#   retrieve a value different from what is expected
+
 import regex as re
 import csv
 import sys
