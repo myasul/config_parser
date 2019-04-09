@@ -25,7 +25,8 @@ sudo chmod +x config_parser.py
 # 1. Create logging
 # 2. Add meaningful comments
 # 3. Check if classes can be more concise. e.g. Add a parent class
-# 4. Implement argparser library
+# 4. Implement argparser library - DONE
+# 5. Implement Generator comprehension
 
 import regex as re
 import csv
