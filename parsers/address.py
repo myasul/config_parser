@@ -62,7 +62,7 @@ class Address:
 
     def _extract_network_details(self):
         network_match = re.search(r'(?<=network\s)' +
-                                  r'(?P<network>[^\s]+)\s(?P<subnet>[^\s]+)',
+                                  r'(?P<network>[^\s]+)\s+(?P<subnet>[^\s]+)',
                                   self._address, re.I)
         if network_match:
             self._network = network_match['network']

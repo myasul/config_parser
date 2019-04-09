@@ -52,10 +52,11 @@ class Service:
 
             # Extract and format destination port
             if match.group(2):
-                port_match = re.search(r"(\d+)[^\d]+(\d+)", match.group(2))
+                port_match = re.search(
+                    r"(?P<port1>\d+)[^\d]+(?P<port2>\d+)", match.group(2))
                 if port_match:
                     self._destination_port = "{}-{}".format(
-                        port_match.group(1), port_match.group(2))
+                        port_match['port1'], port_match['port2'])
 
     def get_service_name(self):
         return self._service_name
