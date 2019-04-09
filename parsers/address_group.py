@@ -37,11 +37,11 @@ class AddressGroup:
     # using regular expressions.
     def populate_fields(self):
         self._ipv4 = helper.extract_field_name(
-            self._address_grp, r'(?<=address-group\sipv4\s)')
+            self._address_grp, r'(?<=^address-group\sipv4\s)')
         self._addresses = self._extract_addresses()
 
     def _extract_addresses(self):
-        matches = re.findall(r'(?<=address-object\sipv4).+(?=\n)',
+        matches = re.findall(r'(?<=\s+address-(?:object|group)\sipv4).+(?=\n)',
                              self._address_grp, re.I | re.M)
         addresses = [helper.remove_wrapping_quotes(
             match.strip()) for match in matches]

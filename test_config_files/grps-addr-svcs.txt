@@ -1,0 +1,401 @@
+
+
+
+address-object ipv4 121.121.4.64 host 121.121.4.64 zone LAN
+address-object ipv4 121.121.3.64 host 121.121.3.64 zone LAN
+address-object ipv4 ""HF Primary X0:V10 IP"" host 121.121.3.4 zone LAN"
+address-object ipv4 ""HF Backup X0:V10 IP"" host 121.121.3.5 zone LAN"
+address-object ipv4 ""HF Primary X0:V11 IP"" host 121.121.4.4 zone LAN"
+address-object ipv4 ""HF Backup X0:V11 IP"" host 121.121.4.5 zone LAN"
+address-object ipv4 ""HF Primary X10 IP"" host 77.225.235.38 zone WAN"
+address-object ipv4 ""HF Backup X10 IP"" host 77.225.235.39 zone WAN"
+address-object ipv4 BP_3 host 59.41.170.168 zone WAN
+
+address-group ipv4 ""LAN Subnets"""
+"    address-object ipv4 ""X0:V15 Subnet"""
+"    address-object ipv4 ""X0:V11 Subnet"""
+"    address-object ipv4 ""X0:V10 Subnet"""
+"    address-object ipv4 ""X0 Subnet"""
+    exit
+
+address-group ipv4 ""Firewalled Subnets"""
+"    address-group ipv4 ""ESG_DMZ Subnets"""
+"    address-group ipv4 ""ISENSOR_DMZ Subnets"""
+"    address-group ipv4 ""CTA_DMZ Subnets"""
+"    address-group ipv4 ""WLAN Subnets"""
+"    address-group ipv4 ""DMZ Subnets"""
+"    address-group ipv4 ""LAN Subnets"""
+    exit
+
+address-group ipv4 ""LAN Interface IP"""
+"    address-object ipv4 ""X0:V15 IP"""
+"    address-object ipv4 ""X0:V11 IP"""
+"    address-object ipv4 ""X0:V10 IP"""
+"    address-object ipv4 ""X0 IP"""
+    exit
+
+address-group ipv4 ""WAN Subnets"""
+"    address-object ipv4 ""X10 Subnet"""
+    exit
+
+address-group ipv4 ""WAN Interface IP"""
+"    address-object ipv4 ""X10 IP"""
+    exit
+
+address-group ipv4 ""DMZ Subnets"""
+"    address-object ipv4 ""X3 Subnet"""
+    exit
+
+address-group ipv4 ""DMZ Interface IP"""
+"    address-object ipv4 ""X3 IP"""
+    exit
+
+address-group ipv4 ""WLAN Subnets"""
+    exit
+
+address-group ipv4 ""WLAN Interface IP"""
+    exit
+
+address-group ipv4 ""All WAN IP"""
+"    address-object ipv4 ""X10 IP"""
+"    address-object ipv4 ""X9 IP"""
+"    address-object ipv4 ""X1 IP"""
+    exit
+
+address-group ipv4 ""All Interface IP"""
+"    address-object ipv4 ""HF Backup X10 IP"""
+"    address-object ipv4 ""HF Primary X10 IP"""
+"    address-object ipv4 ""HF Backup X0:V11 IP"""
+"    address-object ipv4 ""HF Primary X0:V11 IP"""
+"    address-object ipv4 ""HF Backup X0:V10 IP"""
+"    address-object ipv4 ""HF Primary X0:V10 IP"""
+"    address-object ipv4 ""U1 IP"""
+"    address-object ipv4 ""U0 IP"""
+"    address-object ipv4 ""X0:V15 IP"""
+"    address-object ipv4 ""X4:V30 IP"""
+"    address-object ipv4 ""X0:V11 IP"""
+"    address-object ipv4 ""X0:V10 IP"""
+"    address-object ipv4 ""MGMT IP"""
+"    address-object ipv4 ""X17 IP"""
+"    address-object ipv4 ""X16 IP"""
+"    address-object ipv4 ""X15 IP"""
+"    address-object ipv4 ""X14 IP"""
+"    address-object ipv4 ""X13 IP"""
+"    address-object ipv4 ""X12 IP"""
+"    address-object ipv4 ""X11 IP"""
+"    address-object ipv4 ""X10 IP"""
+"    address-object ipv4 ""X9 IP"""
+"    address-object ipv4 ""X8 IP"""
+"    address-object ipv4 ""X7 IP"""
+"    address-object ipv4 ""X6 IP"""
+"    address-object ipv4 ""X5 IP"""
+"    address-object ipv4 ""X4 IP"""
+"    address-object ipv4 ""X3 IP"""
+"    address-object ipv4 ""X2 IP"""
+"    address-object ipv4 ""X1 IP"""
+"    address-object ipv4 ""X0 IP"""
+    exit
+
+
+address-object ipv6 ""X0:V11 IPv6 Primary Dynamic Address"" host :: zone LAN"
+address-object ipv6 ""X0:V11 IPv6 Primary Dynamic Address Subnet"" network :: /64 zone LAN"
+address-object ipv6 ""X0:V15 IPv6 Link-Local Address"" host fe80::c0ea:e4ff:fe88:caec zone LAN"
+address-object ipv6 ""X0:V15 IPv6 Primary Static Address"" host :: zone LAN"
+address-object ipv6 ""X0:V15 IPv6 Primary Static Address Subnet"" network :: /64 zone LAN"
+address-object ipv6 ""X0:V15 IPv6 Primary Dynamic Address"" host :: zone LAN"
+address-object ipv6 ""X0:V15 IPv6 Primary Dynamic Address Subnet"" network :: /64 zone LAN"
+address-object ipv6 ""X4:V30 IPv6 Link-Local Address"" host fe80::c0ea:e4ff:fe88:caf0 zone CTA_DMZ"
+address-object ipv6 ""X4:V30 IPv6 Primary Static Address"" host :: zone CTA_DMZ"
+address-object ipv6 ""X4:V30 IPv6 Primary Static Address Subnet"" network :: /64 zone CTA_DMZ"
+address-object ipv6 ""X4:V30 IPv6 Primary Dynamic Address"" host :: zone CTA_DMZ"
+address-object ipv6 ""X4:V30 IPv6 Primary Dynamic Address Subnet"" network :: /64 zone CTA_DMZ"
+
+address-group ipv6 ""X0 IPv6 Addresses"""
+"    address-object ipv6 ""X0 IPv6 Primary Dynamic Address"""
+"    address-object ipv6 ""X0 IPv6 Primary Static Address"""
+"    address-object ipv6 ""X0 IPv6 Link-Local Address"""
+    exit
+
+address-group ipv6 ""X1 IPv6 Addresses"""
+"    address-object ipv6 ""X1 IPv6 Primary Dynamic Address"""
+"    address-object ipv6 ""X1 IPv6 Primary Static Address"""
+"    address-object ipv6 ""X1 IPv6 Link-Local Address"""
+    exit
+
+address-group ipv6 ""X2 IPv6 Addresses"""
+"    address-object ipv6 ""X2 IPv6 Primary Dynamic Address"""
+"    address-object ipv6 ""X2 IPv6 Primary Static Address"""
+"    address-object ipv6 ""X2 IPv6 Link-Local Address"""
+    exit
+
+address-group ipv6 ""X3 IPv6 Addresses"""
+"    address-object ipv6 ""X3 IPv6 Primary Dynamic Address"""
+"    address-object ipv6 ""X3 IPv6 Primary Static Address"""
+"    address-object ipv6 ""X3 IPv6 Link-Local Address"""
+    exit
+
+address-group ipv6 ""X4 IPv6 Addresses"""
+"    address-object ipv6 ""X4 IPv6 Primary Dynamic Address"""
+"    address-object ipv6 ""X4 IPv6 Primary Static Address"""
+"    address-object ipv6 ""X4 IPv6 Link-Local Address"""
+    exit
+
+address-group ipv6 ""X5 IPv6 Addresses"""
+"    address-object ipv6 ""X5 IPv6 Primary Dynamic Address"""
+"    address-object ipv6 ""X5 IPv6 Primary Static Address"""
+"    address-object ipv6 ""X5 IPv6 Link-Local Address"""
+    exit
+
+address-group ipv6 ""X6 IPv6 Addresses"""
+"    address-object ipv6 ""X6 IPv6 Primary Dynamic Address"""
+"    address-object ipv6 ""X6 IPv6 Primary Static Address"""
+"    address-object ipv6 ""X6 IPv6 Link-Local Address"""
+    exit
+
+address-group ipv6 ""X7 IPv6 Addresses"""
+"    address-object ipv6 ""X7 IPv6 Primary Dynamic Address"""
+"    address-object ipv6 ""X7 IPv6 Primary Static Address"""
+"    address-object ipv6 ""X7 IPv6 Link-Local Address"""
+    exit
+
+address-group ipv6 ""X8 IPv6 Addresses"""
+"    address-object ipv6 ""X8 IPv6 Primary Dynamic Address"""
+"    address-object ipv6 ""X8 IPv6 Primary Static Address"""
+"    address-object ipv6 ""X8 IPv6 Link-Local Address"""
+    exit
+
+address-group ipv6 ""X9 IPv6 Addresses"""
+"    address-object ipv6 ""X9 IPv6 Primary Dynamic Address"""
+"    address-object ipv6 ""X9 IPv6 Primary Static Address"""
+"    address-object ipv6 ""X9 IPv6 Link-Local Address"""
+    exit
+
+address-group ipv6 ""X10 IPv6 Addresses"""
+"    address-object ipv6 ""X10 IPv6 Primary Dynamic Address"""
+"    address-object ipv6 ""X10 IPv6 Primary Static Address"""
+"    address-object ipv6 ""X10 IPv6 Link-Local Address"""
+    exit
+
+address-group ipv6 ""X11 IPv6 Addresses"""
+"    address-object ipv6 ""X11 IPv6 Primary Dynamic Address"""
+"    address-object ipv6 ""X11 IPv6 Primary Static Address"""
+"    address-object ipv6 ""X11 IPv6 Link-Local Address"""
+    exit
+
+service-object ""Mobile Prefix Advertisement (IPv6)"" ICMPV6 none"
+service-object ""Certification Path Solicitation Message (IPv6)"" ICMPV6 none"
+service-object ""Certification Path Advertisement Msg (IPv6)"" ICMPV6 none"
+service-object ""ICMP messages utilized (IPv6)"" ICMPV6 none"
+service-object ""Multicast Router Advertisement (IPv6)"" ICMPV6 none"
+service-object ""Multicast Router Solicitation (IPv6)"" ICMPV6 none"
+service-object ""Multicast Router Termination (IPv6)"" ICMPV6 none"
+service-object ""FMIPv6 Messages (IPv6)"" ICMPV6 none"
+service-object ""RPL Control Message (IPv6)"" ICMPV6 none"
+service-object ""Alternative Address for Host"" ICMP none"
+service-object Acronis_Backup TCP 9876 9876
+
+service-group ""NT Domain Login"""
+"    service-object ""DCE EndPoint"""
+"    service-object ""NT Domain Login Port 1025"""
+    service-group NetBios
+    service-group Kerberos
+    service-object LDAP
+    exit
+
+service-group ""SonicWALL SSO Agents"""
+    exit
+
+service-group ""SonicWALL TS Agents"""
+    exit
+
+service-group ""Terminal Services"""
+"    service-object ""Terminal Services UDP"""
+"    service-object ""Terminal Services TCP"""
+    exit
+
+service-group Citrix
+"    service-object ""Citrix UDP"""
+"    service-object ""Citrix TCP (Session Reliability)"""
+"    service-object ""Citrix TCP"""
+    exit
+
+service-group ""IRC (Chat)"""
+"    service-object ""IRC (Chat) 7000"""
+"    service-object ""IRC (Chat) 6666-6670"""
+"    service-object ""IRC (Chat) 194"""
+    exit
+
+service-group ""DNS (Name Service)"""
+"    service-object ""DNS (Name Service) UDP"""
+"    service-object ""DNS (Name Service) TCP"""
+    exit
+
+service-group ""FTP (All)"""
+"    service-object ""FTP Control"""
+"    service-object ""FTP Data"""
+    exit
+
+service-group IKE
+"    service-object ""IKE (Traversal)"""
+"    service-object ""IKE (Key Exchange)"""
+    exit
+
+service-group ICMP
+"    service-object ""Alternative Address for Host"""
+"    service-object ""Mobile Registration Reply"""
+"    service-object ""Mobile Registration Request"""
+"    service-object ""Mobile Host Redirect"""
+"    service-object ""Datagram Conversion Error"""
+    service-object Traceroute
+"    service-object ""Address Mask Reply"""
+"    service-object ""Address Mask Request"""
+"    service-object ""Information Reply"""
+"    service-object ""Information Request"""
+"    service-object ""Timestamp Reply"""
+    service-object Timestamp
+"    service-object ""Parameter Problem(IPv4)"""
+"    service-group ""Parameter Problem Group"""
+"    service-group ""Time Exceeded Group"""
+"    service-group ""Redirect Group"""
+"    service-group ""Destination Unreachable Group"""
+"    service-object ""Time Exceeded"""
+"    service-object ""Router Solicitation"""
+"    service-object ""Router Advertisement"""
+    service-object Echo
+    service-object Redirect
+"    service-object ""Source Quench"""
+"    service-object ""Destination Unreachable"""
+"    service-object ""Echo Reply"""
+    exit
+
+service-group NetBios
+    service-object SMB
+"    service-object ""NetBios SSN UDP"""
+"    service-object ""NetBios SSN TCP"""
+"    service-object ""NetBios DGM UDP"""
+"    service-object ""NetBios DGM TCP"""
+"    service-object ""NetBios NS UDP"""
+"    service-object ""NetBios NS TCP"""
+    exit
+
+service-group NFS
+"    service-object ""NFS UDP"""
+"    service-object ""NFS TCP"""
+    exit
+
+service-group Syslog
+"    service-object ""Syslog UDP"""
+"    service-object ""Syslog TCP"""
+    exit
+
+service-group VOIP
+"    service-object ""T120 (Whiteboard+A43)"""
+    service-object Skinny
+    service-object SIP
+"    service-object ""MGCP UDP"""
+"    service-object ""MGCP TCP"""
+"    service-object ""H323 Gatekeeper RAS"""
+"    service-object ""H323 Gatekeeper Discovery"""
+"    service-object ""H323 Call Signaling"""
+    exit
+
+service-group ""PC Anywhere"""
+"    service-object ""PC Anywhere UDP"""
+"    service-object ""PC Anywhere TCP"""
+    exit
+
+service-group Timbuktu
+"    service-object ""Timbuktu UDP 1419"""
+"    service-object ""Timbuktu TCP 1417-1420"""
+"    service-object ""Timbuktu UDP 407"""
+"    service-object ""Timbuktu TCP 407"""
+    exit
+
+service-group ""Streaming media"""
+    service-group MSN
+    service-group MMS
+    service-object PNA
+    service-group RTSP
+    exit
+
+service-group RTSP
+"    service-object ""RTSP UDP"""
+"    service-object ""RTSP TCP"""
+    exit
+
+service-group MMS
+"    service-object ""MMS UDP"""
+"    service-object ""MMS TCP"""
+    exit
+
+service-group MSN
+"    service-object ""MSN UDP"""
+"    service-object ""MSN TCP"""
+    exit
+
+service-group ""Yahoo Messenger"""
+"    service-object ""Yahoo Messenger UDP"""
+"    service-object ""Yahoo Messenger TCP"""
+    exit
+
+service-group VNC
+"    service-object ""VNC 5900"""
+"    service-object ""VNC 5800"""
+"    service-object ""VNC 5500"""
+    exit
+
+service-group ""P2P Services"""
+    service-object BearShare
+"    service-object ""Direct Connect"""
+    service-object iMesh
+"    service-object ""Kazaa / FastTrack"""
+    service-group WinMX
+    service-group Edonkey
+    exit
+
+service-group Edonkey
+"    service-object ""Edonkey UDP"""
+"    service-object ""Edonkey TCP"""
+    exit
+
+service-group WinMX
+"    service-object ""WinMX UDP 6257"""
+"    service-object ""WinMX TCP 7729-7735"""
+"    service-object ""WinMX TCP 6699"""
+    exit
+
+service-group IGMP
+"    service-object ""V3 Membership Report"""
+"    service-object ""Leave Group"""
+"    service-object ""V2 Membership Report"""
+"    service-object ""Membership Query"""
+    exit
+
+service-group ""Multicast RTP"""
+    exit
+
+service-group ShoreTel
+"    service-object ""ShoreTel IP Phone Control 2727"""
+"    service-object ""ShoreTel IP Phone Control 2427"""
+"    service-object ""ShoreTel RTP"""
+"    service-object ""ShoreTel Call Control"""
+    exit
+
+service-group ""Tivo Services"""
+"    service-object ""Tivo TCP Desktop (8200)"""
+"    service-object ""Tivo TCP Desktop (8101/8102)"""
+"    service-object ""Tivo TCP Data"""
+"    service-object ""Tivo UDP Beacon"""
+"    service-object ""Tivo TCP Beacon"""
+    exit
+
+service-group FTPS
+    service-object TCP_49999-50101
+    service-object TCP_989-990
+    exit
+
+service-group ""iCMP INET"""
+"    service-object ""Time Exceeded"""
+"    service-object ""Destination Unreachable"""
+"    service-object ""Echo Reply"""
+    exit

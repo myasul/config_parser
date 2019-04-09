@@ -38,11 +38,11 @@ class ServiceGroup:
     # using regular expressions.
     def populate_fields(self):
         self._group_name = helper.extract_field_name(
-            self._service_group, r'(?<=service-group\s)')
+            self._service_group, r'(?<=^service-group\s)')
         self._services = self._extract_services()
 
     def _extract_services(self):
-        matches = re.findall(r'(?<=service-object).+(?=\n)',
+        matches = re.findall(r'(?<=\s+service-(?:object|group)).+(?=\n)',
                              self._service_group, re.I | re.M)
         services = []
         for match in matches:
