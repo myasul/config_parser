@@ -36,8 +36,7 @@ class AddressGroup:
     # Populate fields by extracting the needed data
     # using regular expressions.
     def populate_fields(self):
-        self._ip = helper.extract_field_name(
-            self._address_grp, r'(?<=^address-group\s(ipv4|ipv6)\s)')
+        self._ip = self._extract_ip()
         self._addresses = self._extract_addresses()
 
     def _extract_addresses(self):
@@ -48,6 +47,11 @@ class AddressGroup:
             match.strip()) for match in matches]
 
         return ','.join(addresses)
+
+    def _extract_ip(self):
+        ip = helper.extract_field_name(
+            self._address_grp, r'(?<=^address-group\s(ipv4|ipv6)\s)')
+        return f"{ip};"
 
     def get_ip(self):
         return self._ip

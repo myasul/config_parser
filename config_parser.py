@@ -37,6 +37,7 @@ import csv
 import sys
 import os
 import argparse
+import logging
 from argparse import RawTextHelpFormatter
 
 # Import config parsers
@@ -45,6 +46,12 @@ from parsers.address import generate_address_csv
 from parsers.address_group import generate_address_grp_csv
 from parsers.services import generate_service_csv
 from parsers.service_group import generate_service_grp_csv
+
+# Basic Setup for logging
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    filename='log/config_parser.log',
+                    level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 # CSV File names
 SERVICES_FILENAME = 'services.csv'
@@ -55,17 +62,21 @@ SERVICES_GRP_FILENAME = 'services-grp.csv'
 # them one by one to create csv/ssv files.
 def process_config_file(file_path, file_format):
     if not file_format:
-        print("[ERROR] File format not specified."
-              "Run './config_parser.py -h' for detailed instructions.")
+        error_message = "[ERROR] File format not specified. " \
+                        "Run './config_parser.py -h' for detailed instructions."
+        logger.error(error_message)
+        print(f"[ERROR] {error_message}")
 
     if os.path.exists(file_path):
         # read config file contents
         with open(file_path, 'r') as config_file:
             content = config_file.read()
     else:
-        print("[ERROR] {} cannot be found. ".format(file_path) +
-              "Please put it beside the config parser script " +
-              "or please specify the full valid path.")
+        error_message = f"{file_path} cannot be found. " \
+            "Please put it beside the config parser script " \
+            "or please specify the full valid path."
+        logger.error(error_message)
+        print(f"[ERROR] {error_message}")
         return False
 
     csv_dir = "{}/parsed_csvs".format(os.getcwd())
@@ -107,16 +118,12 @@ def main():
 
     args = parser.parse_args()
 
-    if not args.path:
-        print(
-            "[ERROR] Please input filename. e.g. " +
-            "'/config_parser --path test_config.txt'")
-
     success = process_config_file(args.path, args.format)
     if success:
-        print(
-            "[CONFIRMATION] Config file parsed successfully. " +
-            "Please see CSV files.")
+        message = "Config file parsed successfully. " \
+            "Please see CSV files saved in parsed_csvs/ directory."
+        logger.info(message)
+        print(f"[CONFIRMATION] {message}")
 
 
 if __name__ == "__main__":
