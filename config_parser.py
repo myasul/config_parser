@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 """FIREWALL CONFIGURATION PARSER
 
 This script parses a firewall configuration text file, extracts needed
@@ -48,9 +48,10 @@ from parsers.services import generate_service_csv
 from parsers.service_group import generate_service_grp_csv
 
 # Basic Setup for logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    filename='log/config_parser.log',
-                    level=logging.DEBUG)
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    filename='log/config_parser.log',
+    level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # CSV File names
@@ -63,22 +64,25 @@ SERVICES_GRP_FILENAME = 'services-grp.csv'
 def process_config_file(file_path, file_format):
     if not file_format:
         error_message = "[ERROR] File format not specified. " \
-                        "Run './config_parser.py -h' for detailed instructions."
+                        "Run './config_parser.py -h'" \
+                        "for detailed instructions."
         logger.error(error_message)
-        print(f"[ERROR] {error_message}")
+        print "[ERROR] {}".format(error_message)
 
     if os.path.exists(file_path):
         # read config file contents
         with open(file_path, 'r') as config_file:
             content = config_file.read()
     else:
-        error_message = f"{file_path} cannot be found. " \
-            "Please put it beside the config parser script " \
-            "or please specify the full valid path."
+        error_message = ("{} cannot be found. "
+                         "Please put it beside the config parser script "
+                         "or please specify the full valid path.").format(
+            file_path)
         logger.error(error_message)
-        print(f"[ERROR] {error_message}")
+        print "[ERROR] {}".format(error_message)
         return False
 
+    # Create folder where the parsed csvs would be stored
     csv_dir = "{}/parsed_csvs".format(os.getcwd())
     if not os.path.exists(csv_dir):
         os.mkdir(csv_dir)
@@ -123,7 +127,7 @@ def main():
         message = "Config file parsed successfully. " \
             "Please see CSV files saved in parsed_csvs/ directory."
         logger.info(message)
-        print(f"[CONFIRMATION] {message}")
+        print "[CONFIRMATION] {}".format(message)
 
 
 if __name__ == "__main__":

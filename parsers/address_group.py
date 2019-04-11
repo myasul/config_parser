@@ -51,7 +51,7 @@ class AddressGroup:
     def _extract_ip(self):
         ip = helper.extract_field_name(
             self._address_grp, r'(?<=^address-group\s(ipv4|ipv6)\s)')
-        return f"{ip};"
+        return "{};".format(ip)
 
     def get_ip(self):
         return self._ip

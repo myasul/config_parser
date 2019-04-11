@@ -53,7 +53,7 @@ class ServiceGroup:
     def _extract_group_name(self):
         group_name = helper.extract_field_name(
             self._service_group, r'(?<=^service-group\s)')
-        return f"{group_name};"
+        return "{};".format(group_name)
 
     def get_group_name(self):
         return self._group_name

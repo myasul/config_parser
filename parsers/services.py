@@ -2,6 +2,7 @@ import regex as re
 import csv
 import tools.helper as helper
 from tools.const import SERVICE_REGEX, SERVICE_FILENAME, FILE_FORMAT
+import logging
 
 
 def generate_service_csv(content, csv_dir, file_format):
