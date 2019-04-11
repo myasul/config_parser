@@ -1,15 +1,23 @@
 import regex as re
 import csv
+
+# Import tools
 import tools.helper as helper
+from tools.logger import get_logger
 from tools.const import ACCESS_RULE_FILENAME, ACCESS_RULE_REGEX, FILE_FORMAT
 
 
 def generate_access_rules_csv(content, csv_dir, file_format):
+    logger = get_logger(__name__)
+    logger.info("Generating Access Rules CSV file.")
+
     access_rules = ACCESS_RULE_REGEX.findall(content)
     access_rules_obj = []
     for rule in access_rules:
         # Create a list of AccessRule objects
-        access_rules_obj.append(AccessRule(rule))
+        logger.debug("Parsing {}.".format(rule))
+        access_rules_obj.append(AccessRule(rule, logger))
+        logger.debug("Parsing complete.")
 
     cwd = csv_dir + "/" + ACCESS_RULE_FILENAME
 
@@ -24,19 +32,27 @@ def generate_access_rules_csv(content, csv_dir, file_format):
             'comment'])
 
         # Write access rule entries
+        row_count = 1
         for rule in access_rules_obj:
-            config_writer.writerow([
+            rule_content = [
                 rule.get_from(),
                 rule.get_to(),
                 rule.get_action(),
                 rule.get_source_address(),
                 rule.get_service(),
                 rule.get_destination_address(),
-                rule.get_comment()])
+                rule.get_comment()]
+
+            logger.debug("Adding row {}. Contains {}.".format(
+                row_count, rule_content))
+            config_writer.writerow(rule_content)
+            row_count += 1
+
+    logger.info("Generating Access Rule CSV completed.")
 
 
 class AccessRule:
-    def __init__(self, rule):
+    def __init__(self, rule, logger):
         self._access_rule = rule
         self._rule_from = ""
         self._rule_to = ""
@@ -45,6 +61,7 @@ class AccessRule:
         self._service = "any"
         self._dest_addr = "any"
         self._comment = ""
+        self._logger = logger
         self.populate_fields()
 
     # Populate fields by extracting the needed data
@@ -61,6 +78,15 @@ class AccessRule:
         self._dest_addr = self._get_type(r'(?<=\sdestination\saddress\s).+')
         self._comment = helper.extract_field_name(
             self._access_rule, r'(?<=\scomment\s)')
+                
+        self._logger.debug("Parsed value: {}".format([
+            self.get_from(),
+            self.get_to(),
+            self.get_action(),
+            self.get_source_address(),
+            self.get_service(),
+            self.get_destination_address(),
+            self.get_comment()]))
 
     def _get_type(self, pattern):
         match = re.search(pattern, self._access_rule)

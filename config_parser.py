@@ -48,13 +48,6 @@ from parsers.address_group import generate_address_grp_csv
 from parsers.services import generate_service_csv
 from parsers.service_group import generate_service_grp_csv
 
-# # Basic Setup for logging
-# logging.basicConfig(
-#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-#     filename='log/config_parser.log',
-#     level=logging.DEBUG)
-# logger = logging.getLogger(__name__)
-
 # CSV File names
 SERVICES_FILENAME = 'services.csv'
 SERVICES_GRP_FILENAME = 'services-grp.csv'
@@ -63,6 +56,10 @@ SERVICES_GRP_FILENAME = 'services-grp.csv'
 # Main method that combines all the parsers and calls
 # them one by one to create csv/ssv files.
 def process_config_file(file_path, file_format):
+    logger = get_logger(__name__)
+
+    logger.info("{} si being parsed.".format(file_path))
+
     if not file_format:
         error_message = "[ERROR] File format not specified. " \
                         "Run './config_parser.py -h'" \
@@ -93,11 +90,13 @@ def process_config_file(file_path, file_format):
     generate_address_grp_csv(content, csv_dir, file_format)
     generate_service_csv(content, csv_dir, file_format)
     generate_service_grp_csv(content, csv_dir, file_format)
+
     return True
 
 
 def main():
     logger = get_logger(__name__)
+
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=RawTextHelpFormatter
@@ -126,8 +125,9 @@ def main():
 
     success = process_config_file(args.path, args.format)
     if success:
-        message = "Config file parsed successfully. " \
-            "Please see CSV files saved in parsed_csvs/ directory."
+        message = ("Config file {} parsed successfully. "
+                   "Please see CSV files saved in parsed_csvs/ directory."
+                   ).format(args.path)
         logger.info(message)
         print "[CONFIRMATION] {}".format(message)
 
