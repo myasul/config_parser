@@ -19,7 +19,7 @@ def generate_access_rules_csv(content, csv_dir, file_format):
         # Create a list of AccessRule objects
         logger.debug("Parsing row {}: {}.".format(parse_count, rule))
         access_rules_obj.append(AccessRule(rule, logger))
-        logger.debug("Parsing complete.")
+        logger.debug("Parsing row {} complete.".format(parse_count))
 
         parse_count += 1
 

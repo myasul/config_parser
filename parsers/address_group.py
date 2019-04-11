@@ -19,7 +19,7 @@ def generate_address_grp_csv(content, csv_dir, file_format):
         # Create a list of Address objects
         logger.debug("Parsing row {}: {}".format(parse_count, addr))
         address_grp_obj.append(AddressGroup(addr, logger))
-        logger.debug("Parsing complete.")
+        logger.debug("Parsing row {} complete.".format(parse_count))
 
         parse_count += 1
 
