@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 """FIREWALL CONFIGURATION PARSER
 
 This script parses a firewall configuration text file, extracts needed
