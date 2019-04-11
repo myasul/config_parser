@@ -1,15 +1,27 @@
 import regex as re
 import csv
+
+# Import tools
 import tools.helper as helper
+from tools.logger import get_logger
 from tools.const import ADDRESS_GRP_REGEX, ADDRESS_GRP_FILENAME, FILE_FORMAT
 
 
 def generate_address_grp_csv(content, csv_dir, file_format):
+    logger = get_logger(__name__)
+    logger.info("Generating Address Group CSV file.")
+
     address_grps = ADDRESS_GRP_REGEX.findall(content)
     address_grp_obj = []
+
+    parse_count = 0
     for addr in address_grps:
         # Create a list of Address objects
-        address_grp_obj.append(AddressGroup(addr))
+        logger.debug("Parsing row {}: {}".format(parse_count, addr))
+        address_grp_obj.append(AddressGroup(addr, logger))
+        logger.debug("Parsing complete.")
+
+        parse_count += 1
 
     cwd = csv_dir + "/" + ADDRESS_GRP_FILENAME
 
@@ -20,17 +32,29 @@ def generate_address_grp_csv(content, csv_dir, file_format):
         config_writer.writerow(['name', 'members'])
 
         # Write address entries
+        row_count = 1
         for grp in address_grp_obj:
+            grp_content = [
+                grp.get_ip(),
+                grp.get_addresses()]
+
+            logger.debug("Adding row {}. Contains {}".format(
+                row_count, grp_content))
+
             config_writer.writerow([
                 grp.get_ip(),
                 grp.get_addresses()])
+            row_count += 1
+
+    logger.info("Generating Address Group CSV completed.")
 
 
 class AddressGroup:
-    def __init__(self, address_grp):
+    def __init__(self, address_grp, logger):
         self._address_grp = address_grp
         self._ip = ""
         self._addresses = ""
+        self._logger = logger
         self.populate_fields()
 
     # Populate fields by extracting the needed data
@@ -38,6 +62,10 @@ class AddressGroup:
     def populate_fields(self):
         self._ip = self._extract_ip()
         self._addresses = self._extract_addresses()
+
+        self._logger.debug("Parsed value: {}".format([
+            self.get_ip(),
+            self.get_addresses()]))
 
     def _extract_addresses(self):
         matches = re.findall(r'(?<=\s+address-(?:object|group)' +

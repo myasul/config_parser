@@ -13,11 +13,15 @@ def generate_access_rules_csv(content, csv_dir, file_format):
 
     access_rules = ACCESS_RULE_REGEX.findall(content)
     access_rules_obj = []
+
+    parse_count = 0
     for rule in access_rules:
         # Create a list of AccessRule objects
-        logger.debug("Parsing {}.".format(rule))
+        logger.debug("Parsing row {}: {}.".format(parse_count, rule))
         access_rules_obj.append(AccessRule(rule, logger))
         logger.debug("Parsing complete.")
+
+        parse_count += 1
 
     cwd = csv_dir + "/" + ACCESS_RULE_FILENAME
 
@@ -45,6 +49,7 @@ def generate_access_rules_csv(content, csv_dir, file_format):
 
             logger.debug("Adding row {}. Contains {}.".format(
                 row_count, rule_content))
+
             config_writer.writerow(rule_content)
             row_count += 1
 
@@ -78,7 +83,7 @@ class AccessRule:
         self._dest_addr = self._get_type(r'(?<=\sdestination\saddress\s).+')
         self._comment = helper.extract_field_name(
             self._access_rule, r'(?<=\scomment\s)')
-                
+
         self._logger.debug("Parsed value: {}".format([
             self.get_from(),
             self.get_to(),
