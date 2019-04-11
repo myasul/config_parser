@@ -1,15 +1,27 @@
 import regex as re
 import csv
+
+# Import tools
 import tools.helper as helper
+from tools.logger import get_logger
 from tools.const import ADDRESS_REGEX, ADDRESS_FILENAME, FILE_FORMAT
 
 
 def generate_address_csv(content, csv_dir, file_format):
+    logger = get_logger(__name__)
+    logger.info("Generating Address CSV file.")
+
     addresses = ADDRESS_REGEX.findall(content)
     address_obj = []
+
+    parse_count = 0
     for addr in addresses:
         # Create a list of Address objects
-        address_obj.append(Address(addr))
+        logger.debug("Parsing row {}: {}".format(parse_count, addr))
+        address_obj.append(Address(addr, logger))
+        logger.debug("Parsing complete.")
+
+        parse_count += 1
 
     cwd = csv_dir + "/" + ADDRESS_FILENAME
 
@@ -21,6 +33,7 @@ def generate_address_csv(content, csv_dir, file_format):
             'ip', 'network_host', 'subnet'])
 
         # Write address entries
+        row_count = 0
         for addr in address_obj:
             if addr.get_host():
                 config_writer.writerow([
@@ -38,14 +51,26 @@ def generate_address_csv(content, csv_dir, file_format):
                     '',
                     ''])
 
+            logger.debug("Adding row {}. Contains {}.".format(
+                row_count, [
+                    addr.get_ip(),
+                    addr.get_host(),
+                    addr.get_network(),
+                    addr.get_subnet()
+                ]
+            ))
+
+        logger.info("Generating Address CSV completed.")
+
 
 class Address:
-    def __init__(self, address):
+    def __init__(self, address, logger):
         self._address = address
         self._ip = ""
         self._host = ""
         self._network = ""
         self._subnet = ""
+        self._logger = logger
         self.populate_fields()
 
     # Populate fields by extracting the needed data
@@ -59,6 +84,12 @@ class Address:
             r'(?<=\shost\s)')
         if not self._host:
             self._extract_network_details()
+
+        self._logger.debug("Parsed value: {}".format([
+            self.get_ip(),
+            self.get_host(),
+            self.get_network(),
+            self.get_subnet()]))
 
     def _extract_network_details(self):
         network_match = re.search(r'(?<=\snetwork\s)' +
