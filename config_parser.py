@@ -39,6 +39,7 @@ import os
 import argparse
 import logging
 from argparse import RawTextHelpFormatter
+from tools.logger import get_logger
 
 # Import config parsers
 from parsers.access_rules import generate_access_rules_csv
@@ -47,12 +48,12 @@ from parsers.address_group import generate_address_grp_csv
 from parsers.services import generate_service_csv
 from parsers.service_group import generate_service_grp_csv
 
-# Basic Setup for logging
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    filename='log/config_parser.log',
-    level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+# # Basic Setup for logging
+# logging.basicConfig(
+#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+#     filename='log/config_parser.log',
+#     level=logging.DEBUG)
+# logger = logging.getLogger(__name__)
 
 # CSV File names
 SERVICES_FILENAME = 'services.csv'
@@ -96,6 +97,7 @@ def process_config_file(file_path, file_format):
 
 
 def main():
+    logger = get_logger(__name__)
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=RawTextHelpFormatter

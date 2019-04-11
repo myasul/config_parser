@@ -1,10 +1,12 @@
 import logging
+import logging.config
 import json
+import os
 from logging.handlers import RotatingFileHandler
 
 FORMATTER = logging.Formatter(
     "%(asctime)s - %(name)s- %(levelname)s- %(message)s")
-LOG_FILENAME = "config_parser.log"
+LOG_FILENAME = "log/config_parser.log"
 
 
 def get_file_handler():
@@ -18,8 +20,11 @@ def get_file_handler():
 
 
 def get_logger(name):
+    dir = os.path.dirname(__file__)
+    config_file_path = os.path.join(dir, "../parser_logging_config.json")
     config_dict = None
-    with open("../parser_logging_config.json", "r") as config_file:
+
+    with open(config_file_path, "r") as config_file:
         config_dict = json.load(config_file)
 
     if config_dict:
