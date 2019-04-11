@@ -14,8 +14,9 @@ def remove_wrapping_quotes(data):
     string
         The string without the surrounding quotes
     """
-    return re.sub(r"^['\"]*(.+?)['\"]*$", r"\1",
-                  data.strip())
+    if data and isinstance(data, basestring):
+        return re.sub(r"^['\"]*(.+?)['\"]*$", r"\1",
+                      data.strip())
 
 
 def extract_field_name(data, pattern, flag=None):

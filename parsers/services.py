@@ -83,7 +83,8 @@ class Service:
         if match:
             network_details = match.groupdict()
             # Extract protocol
-            self._protocol = network_details.get('protocol')
+            self._protocol = helper.remove_wrapping_quotes(
+                network_details.get('protocol'))
 
             # Extract and format destination port
             if network_details.get('ports'):
@@ -91,8 +92,10 @@ class Service:
                     r"^(?P<port1>\d+)[^\d]+(?P<port2>\d+)",
                     network_details.get('ports').strip())
                 if port_match:
-                    self._destination_port = "{}-{}".format(
+                    destination_port = "{}-{}".format(
                         port_match['port1'], port_match['port2'])
+                    self._destination_port = helper.remove_wrapping_quotes(
+                        destination_port)
 
     def get_service_name(self):
         return self._service_name

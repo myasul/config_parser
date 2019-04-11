@@ -98,8 +98,10 @@ class Address:
         if network_match:
             network_details = network_match.groupdict()
 
-            self._network = network_details.get('network')
-            self._subnet = network_details.get('subnet')
+            self._network = helper.remove_wrapping_quotes(
+                network_details.get('network'))
+            self._subnet = helper.remove_wrapping_quotes(
+                network_details.get('subnet'))
 
     def get_ip(self):
         return self._ip
