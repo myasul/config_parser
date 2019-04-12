@@ -40,6 +40,7 @@ import argparse
 import logging
 from argparse import RawTextHelpFormatter
 from tools.logger import get_logger
+from tools.const import WINDOWS_LINE_ENDING, UNIX_LINE_ENDING
 
 # Import config parsers
 from parsers.access_rules import generate_access_rules_csv
@@ -71,6 +72,7 @@ def process_config_file(file_path, file_format):
         # read config file contents
         with open(file_path, 'r') as config_file:
             content = config_file.read()
+            content = content.replace(WINDOWS_LINE_ENDING, UNIX_LINE_ENDING)
     else:
         error_message = ("{} cannot be found. "
                          "Please put it beside the config parser script "

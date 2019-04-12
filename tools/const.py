@@ -12,6 +12,9 @@ ADDRESS_REGEX = re.compile(r'^address-object.+$', re.I | re.M)
 ACCESS_RULE_REGEX = re.compile(r'^access-rule.+?(?=exit)', re.I | re.M | re.S)
 ADDRESS_GRP_REGEX = re.compile(r'^address-group.+?exit$', re.I | re.M | re.S)
 
+WINDOWS_LINE_ENDING = b'\r\n'
+UNIX_LINE_ENDING = b'\n'
+
 FILE_FORMAT = {
     'csv': ',',
     'ssv': ';'

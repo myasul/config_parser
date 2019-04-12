@@ -919,13 +919,7 @@ address-group ipv4 App_Servers_Group
     address-object ipv4 31.31.3.56
     exit
 
-address-group ipv4 RMGroup
-    address-object ipv4 31.31.3.64
-    address-object ipv4 31.31.4.64
-    address-object ipv4 31.31.4.192
-    address-object ipv4 31.31.4.56
-    address-object ipv4 31.31.3.56
-    exit
+   
 
 address-group ipv4 IphPolicyDstAuto_0
     address-group ipv4 Connecticut_Site_to_Site_LAN

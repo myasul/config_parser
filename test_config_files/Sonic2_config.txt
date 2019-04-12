@@ -13,7 +13,22 @@ address-group ipv4 ""All U1 Management IP"""
     "   address-object ipv4 ""U1 IP"""
     "   address-object ipv4 ""EM MY"""
         exit
+        
+address-group ipv4 App_Servers_Group
+    address-object ipv4 31.31.4.192
+    address-object ipv4 31.31.3.54
+    address-object ipv4 31.31.4.54
+    address-object ipv4 31.31.4.56
+    address-object ipv4 31.31.3.56
+    exit
 
+address-group ipv4 RMGroup
+    address-object ipv4 31.31.3.64
+    address-object ipv4 31.31.4.64
+    address-object ipv4 31.31.4.192
+    address-object ipv4 31.31.4.56
+    address-object ipv4 31.31.3.56
+    exit
 
 access-rule from VPN to DMZ action allow source address name ""VPN DHCP Clients"" destination address name ""WAN RemoteAccess Networks"""
     id 318
