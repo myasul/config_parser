@@ -16,7 +16,6 @@ def generate_zone_csv(content, csv_dir, file_format):
 
     parse_count = 0
     for zone in zones:
-        print zone
         # Create a list of Address objects
         logger.debug("Parsing row {}: {}.".format(parse_count, zone))
         zones_obj.append(Zone(zone, logger))
@@ -45,8 +44,8 @@ def generate_zone_csv(content, csv_dir, file_format):
 
 
 class Zone:
-    def __init__(self, zones, logger):
-        self._zones = zones
+    def __init__(self, zone_config, logger):
+        self._zone_config = zone_config
         self._logger = logger
         self.zone = "zone"
         self.name = ""
@@ -55,7 +54,8 @@ class Zone:
     # Populate fields by extracting the needed data
     # using regular expressions.
     def populate_fields(self):
-        self.name = helper.extract_field_name(self._zones, r'(?<=zone\s)')
+        self.name = helper.extract_field_name(
+            self._zone_config, r'(?<=zone\s)')
 
         self._logger.debug("Parsed value: {}".format([
             self.zone,

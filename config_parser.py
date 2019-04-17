@@ -49,6 +49,7 @@ from parsers.address_group import generate_address_grp_csv
 from parsers.services import generate_service_csv
 from parsers.service_group import generate_service_grp_csv
 from parsers.zone import generate_zone_csv
+from parsers.interface import generate_interface_csv
 
 # CSV File names
 SERVICES_FILENAME = 'services.csv'
@@ -94,6 +95,7 @@ def process_config_file(file_path, file_format):
     # generate_service_csv(content, csv_dir, file_format)
     # generate_service_grp_csv(content, csv_dir, file_format)
     generate_zone_csv(content, csv_dir, file_format)
+    generate_interface_csv(content, csv_dir, file_format)
 
     return True
 
