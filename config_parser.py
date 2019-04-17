@@ -89,11 +89,11 @@ def process_config_file(file_path, file_format):
     if not os.path.exists(csv_dir):
         os.mkdir(csv_dir)
 
-    # generate_access_rules_csv(content, csv_dir, file_format)
-    # generate_address_csv(content, csv_dir, file_format)
-    # generate_address_grp_csv(content, csv_dir, file_format)
-    # generate_service_csv(content, csv_dir, file_format)
-    # generate_service_grp_csv(content, csv_dir, file_format)
+    generate_access_rules_csv(content, csv_dir, file_format)
+    generate_address_csv(content, csv_dir, file_format)
+    generate_address_grp_csv(content, csv_dir, file_format)
+    generate_service_csv(content, csv_dir, file_format)
+    generate_service_grp_csv(content, csv_dir, file_format)
     generate_zone_csv(content, csv_dir, file_format)
     generate_interface_csv(content, csv_dir, file_format)
 
