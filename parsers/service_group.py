@@ -36,8 +36,8 @@ def generate_service_grp_csv(content, csv_dir, file_format):
         row_count = 1
         for grp in services_grp_obj:
             grp_content = [
-                grp.get_group_name(),
-                grp.get_services()]
+                grp.group_name,
+                grp.services]
 
             logger.debug("Adding row {}. Contains {}.".format(
                 row_count, grp_content))
@@ -51,20 +51,20 @@ def generate_service_grp_csv(content, csv_dir, file_format):
 class ServiceGroup:
     def __init__(self, service_group, logger):
         self._service_group = service_group
-        self._group_name = ""
-        self._services = ""
         self._logger = logger
+        self.group_name = ""
+        self.services = ""
         self.populate_fields()
 
     # Populate fields by extracting the needed data
     # using regular expressions.
     def populate_fields(self):
-        self._group_name = self._extract_group_name()
-        self._services = self._extract_services()
+        self.group_name = self._extract_group_name()
+        self.services = self._extract_services()
 
         self._logger.debug("Parsed value: {}".format([
-            self.get_group_name(),
-            self.get_services()]))
+            self.group_name,
+            self.services]))
 
     def _extract_services(self):
         matches = re.findall(r'(?<=\s+service-(?:object|group)).+(?=\n)',
@@ -80,9 +80,3 @@ class ServiceGroup:
         group_name = helper.extract_field_name(
             self._service_group, r'(?<=^service-group\s)')
         return "{};".format(group_name)
-
-    def get_group_name(self):
-        return self._group_name
-
-    def get_services(self):
-        return self._services
