@@ -34,9 +34,9 @@ def generate_service_csv(content, csv_dir, file_format):
         row_count = 1
         for service in services_obj:
             service_content = [
-                service.get_service_name(),
-                service.get_protocol(),
-                service.get_destination_port()]
+                service.service_name,
+                service.protocol,
+                service.destination_port]
 
             logger.debug("Adding row {}. Contains {}".format(
                 row_count, service_content))
@@ -47,23 +47,23 @@ def generate_service_csv(content, csv_dir, file_format):
 class Service:
     def __init__(self, service, logger):
         self._service = service
-        self._service_name = ""
-        self._protocol = ""
-        self._destination_port = ""
         self._logger = logger
+        self.service_name = ""
+        self.protocol = ""
+        self.destination_port = ""
         self.populate_fields()
 
     # Populate fields by extracting the needed data
     # using regular expressions.
     def populate_fields(self):
-        self._service_name = helper.extract_field_name(
+        self.service_name = helper.extract_field_name(
             self._service, r'(?<=service-object\s)')
         self._extract_network_details()
 
         self._logger.debug("Parsed value: {}".format([
-            self.get_service_name(),
-            self.get_protocol(),
-            self.get_destination_port()
+            self.service_name,
+            self.protocol,
+            self.destination_port
         ]))
 
     def _extract_network_details(self):
@@ -83,7 +83,7 @@ class Service:
         if match:
             network_details = match.groupdict()
             # Extract protocol
-            self._protocol = helper.remove_wrapping_quotes(
+            self.protocol = helper.remove_wrapping_quotes(
                 network_details.get('protocol'))
 
             # Extract and format destination port
@@ -94,14 +94,5 @@ class Service:
                 if port_match:
                     destination_port = "{}-{}".format(
                         port_match['port1'], port_match['port2'])
-                    self._destination_port = helper.remove_wrapping_quotes(
+                    self.destination_port = helper.remove_wrapping_quotes(
                         destination_port)
-
-    def get_service_name(self):
-        return self._service_name
-
-    def get_destination_port(self):
-        return self._destination_port
-
-    def get_protocol(self):
-        return self._protocol
