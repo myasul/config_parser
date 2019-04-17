@@ -35,15 +35,13 @@ def generate_address_grp_csv(content, csv_dir, file_format):
         row_count = 1
         for grp in address_grp_obj:
             grp_content = [
-                grp.get_ip(),
-                grp.get_addresses()]
+                grp.ip,
+                grp.addresses]
 
             logger.debug("Adding row {}. Contains {}".format(
                 row_count, grp_content))
 
-            config_writer.writerow([
-                grp.get_ip(),
-                grp.get_addresses()])
+            config_writer.writerow(grp_content)
             row_count += 1
 
     logger.info("Generating Address Group CSV completed.")
@@ -52,20 +50,20 @@ def generate_address_grp_csv(content, csv_dir, file_format):
 class AddressGroup:
     def __init__(self, address_grp, logger):
         self._address_grp = address_grp
-        self._ip = ""
-        self._addresses = ""
         self._logger = logger
+        self.ip = ""
+        self.addresses = ""
         self.populate_fields()
 
     # Populate fields by extracting the needed data
     # using regular expressions.
     def populate_fields(self):
-        self._ip = self._extract_ip()
-        self._addresses = self._extract_addresses()
+        self.ip = self._extract_ip()
+        self.addresses = self._extract_addresses()
 
         self._logger.debug("Parsed value: {}".format([
-            self.get_ip(),
-            self.get_addresses()]))
+            self.ip,
+            self.addresses]))
 
     def _extract_addresses(self):
         matches = re.findall(r'(?<=\s+address-(?:object|group)' +
@@ -80,9 +78,3 @@ class AddressGroup:
         ip = helper.extract_field_name(
             self._address_grp, r'(?<=^address-group\s(ipv4|ipv6)\s)')
         return "{};".format(ip)
-
-    def get_ip(self):
-        return self._ip
-
-    def get_addresses(self):
-        return self._addresses
