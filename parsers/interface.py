@@ -16,7 +16,6 @@ def generate_interface_csv(content, csv_dir, file_format):
 
     parse_count = 0
     for interface in interfaces:
-        print interface
         # Create a list of Address objects
         logger.debug("Parsing row {}: {}.".format(parse_count, interface))
         interfaces_obj.append(Interface(interface, logger))
@@ -29,13 +28,14 @@ def generate_interface_csv(content, csv_dir, file_format):
             parsed_config, delimiter=FILE_FORMAT.get(file_format, ','))
         # Write headers
         config_writer.writerow([
-            'name', 'ip', 'netmask'])
+            'name', 'vlan', 'ip', 'netmask'])
 
         # Write address entries
         row_count = 1
         for interface in interfaces_obj:
             interface_content = [
                 interface.name,
+                interface.vlan,
                 interface.ip,
                 interface.netmask]
 
@@ -52,19 +52,28 @@ class Interface:
         self.name = ""
         self.ip = ""
         self.netmask = ""
+        self.vlan = ""
         self.populate_fields()
 
     # Populate fields by extracting the needed data
     # using regular expressions.
     def populate_fields(self):
-        self.name = helper.extract_field_name(
-            self._interface, r'(?<=interface\s)')
+        self.name = self._extract_interface_name()
         self.ip = helper.extract_field_name(self._interface, r'(?<=\bip\s)')
         self.netmask = helper.extract_field_name(
             self._interface, r'(?<=netmask\s)')
+        self.vlan = helper.extract_field_name(
+            self._interface, r'(?<=\svlan\s)')
 
         self._logger.debug("Parsed value: {}".format([
             self.name,
             self.ip,
             self.netmask
         ]))
+
+    def _extract_interface_name(self):
+        interface = re.search(
+            r'^interface\s(?:ipv6\s)?([^\s]+)', self._interface)
+        if interface:
+            return helper.remove_wrapping_quotes(interface.group(1))
+        return ""
