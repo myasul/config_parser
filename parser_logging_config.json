@@ -9,7 +9,7 @@
     "handlers": {
         "file_handler": {
             "class": "logging.handlers.RotatingFileHandler",
-            "level": "DEBUG",
+            "level": "INFO",
             "formatter": "simple",
             "filename": "log/config_parser.log",
             "maxBytes": "10485760",
@@ -19,7 +19,7 @@
         }
     },
     "root": {
-        "level": "DEBUG",
+        "level": "INFO",
         "handlers": [
             "file_handler"
         ]

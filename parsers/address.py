@@ -4,7 +4,8 @@ import csv
 # Import tools
 import tools.helper as helper
 from tools.logger import get_logger
-from tools.const import ADDRESS_REGEX, ADDRESS_FILENAME, FILE_FORMAT
+from tools.const import ADDRESS_REGEX, ADDRESS_FILENAME, \
+    FILE_FORMAT, ADDRESS_MULTILINE_REGEX
 
 
 def generate_address_csv(content, csv_dir, file_format):
@@ -12,6 +13,9 @@ def generate_address_csv(content, csv_dir, file_format):
     logger.info("Generating Address CSV file.")
 
     addresses = ADDRESS_REGEX.findall(content)
+    addresses_multiline = ADDRESS_MULTILINE_REGEX.findall(content)
+    if addresses_multiline:
+        addresses.append(addresses_multiline)
     address_obj = []
 
     parse_count = 0
@@ -90,6 +94,9 @@ class Address:
             self.host,
             self.network,
             self.subnet]))
+
+    def _extract_ip(self):
+        pass
 
     def _extract_network_details(self):
         network_match = re.search(r'(?<=\snetwork\s)' +
