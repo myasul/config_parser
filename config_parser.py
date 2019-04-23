@@ -70,16 +70,16 @@ def process_config_file(file_path, file_format):
         logger.error(error_message)
         print "[ERROR] {}".format(error_message)
 
-    if os.path.exists(file_path):
+    try:
         # read config file contents
         with open(file_path, 'r') as config_file:
             content = config_file.read()
             content = content.replace(WINDOWS_LINE_ENDING, UNIX_LINE_ENDING)
-    else:
-        error_message = ("{} cannot be found. "
+    except IOError:
+        error_message = ("{} cannot be found or {} is a directory."
                          "Please put it beside the config parser script "
                          "or please specify the full valid path.").format(
-            file_path)
+            file_path, file_path)
         logger.error(error_message)
         print "[ERROR] {}".format(error_message)
         return False
@@ -126,6 +126,10 @@ def main():
         default='csv',
         choices=['csv', 'ssv'],
         help=format_help)
+
+    # Used for debugging
+    # args = argparse.Namespace(
+    #     path='test_config_files/test-config-file.txt', format='csv')
 
     args = parser.parse_args()
 
