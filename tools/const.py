@@ -12,7 +12,7 @@ SERVICE_REGEX = re.compile(r'^service-object.+$', re.I | re.M)
 SERVICE_GRP_REGEX = re.compile(r'^service-group.+?exit$', re.I | re.M | re.S)
 ADDRESS_REGEX = re.compile(r'^address-object.+zone.+$', re.I | re.M)
 ADDRESS_MULTILINE_REGEX = re.compile(
-    r'(^address-object.+\n(?:\s+[\"-. \t\w\d]+$\n)+?\s+exit)', re.I | re.M)
+    r'(^address-object.+\n(?:[\"-. \t\w\d]+$\n)+?\s+exit)', re.I | re.M)
 ACCESS_RULE_REGEX = re.compile(r'^access-rule.+?(?=exit)', re.I | re.M | re.S)
 ADDRESS_GRP_REGEX = re.compile(r'^address-group.+?exit$', re.I | re.M | re.S)
 ZONE_REGEX = re.compile(r'^zone.+?exit$', re.I | re.M | re.S)

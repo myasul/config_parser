@@ -18,6 +18,7 @@ def generate_address_csv(content, csv_dir, file_format):
     addresses = set()
     addresses.update(ADDRESS_REGEX.findall(content))
     addresses.update(ADDRESS_MULTILINE_REGEX.findall(content))
+
     address_obj = []
 
     parse_count = 0
