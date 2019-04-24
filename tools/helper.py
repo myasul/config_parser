@@ -42,10 +42,10 @@ def extract_field_name(data, pattern, flag=None):
         # and if the field has a single value there is no quotes wrapped in it.
         # The regex expression below fulfill both conditions
         match = re.search(
-            pattern + r'(("{1,2}.+"{1,2})|([^\s]+))', data, flags=flag)
+            pattern + r'(("{1,2}.+?"{1,2})|([^\s]+))', data, flags=flag)
     else:
         match = re.search(
-            pattern + r'(("{1,2}.+"{1,2})|([^\s]+))', data)
+            pattern + r'(("{1,2}.+?"{1,2})|([^\s]+))', data)
     if match:
         field = remove_wrapping_quotes(match.group().strip())
         return field.strip()
