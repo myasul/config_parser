@@ -99,6 +99,7 @@ class Address:
         self.ip = self._extract_ip()
 
         self._logger.debug('Parsed value: {}'.format([
+            self.name,
             self.ip,
             self.host,
             self.network,
@@ -106,22 +107,19 @@ class Address:
 
     def _extract_ip(self):
         ip_type = self._extract_ip_type()
-        if ip_type:
-            if ip_type == 'ipv4':
-                return self.host if self.host else self.network
-            elif ip_type == 'fqdn':
-                return helper.extract_field_name(
-                    self._address,
-                    pattern=r'(?<=\sdomain\s)',
-                    flag=re.MULTILINE)
-            elif ip_type == 'mac':
-                return helper.extract_field_name(
-                    self._address,
-                    pattern=r'(?<=\saddress\s)',
-                    flag=re.MULTILINE)
 
-            else:
-                return ''
+        if ip_type == 'ipv4':
+            return self.host if self.host else self.network
+        elif ip_type == 'fqdn':
+            return helper.extract_field_name(
+                self._address,
+                pattern=r'(?<=\sdomain\s)',
+                flag=re.MULTILINE)
+        elif ip_type == 'mac':
+            return helper.extract_field_name(
+                self._address,
+                pattern=r'(?<=\saddress\s)',
+                flag=re.MULTILINE)
         else:
             return ''
 
@@ -133,20 +131,20 @@ class Address:
             ip_type = ip_type_match.group().strip()
             if ip_type in ['ipv4', 'ipv6', 'fqdn', 'mac']:
                 return ip_type
-            else:
-                return ''
-        else:
-            return ''
 
-    def _extract_name(self):
-        ip_type = self._extract_ip_type()
-        if ip_type:
-            return helper.extract_field_name(
-                self._address, r'(?<=\s{}\s)'.format(ip_type))
+            else:
+                error = 'IP Type of {} is unknown'.format(self._address)
+                self._logger.error(error)
+                raise ValueError(error)
         else:
             error = 'IP Type of {} is unknown'.format(self._address)
             self._logger.error(error)
             raise ValueError(error)
+
+    def _extract_name(self):
+        ip_type = self._extract_ip_type()
+        return helper.extract_field_name(
+            self._address, r'(?<=\s{}\s)'.format(ip_type))
 
     def _extract_network_details(self):
         network = subnet = ""
