@@ -36,40 +36,25 @@ def generate_address_csv(content, csv_dir, file_format):
         config_writer = csv.writer(
             parsed_config, delimiter=FILE_FORMAT.get(file_format, ','))
         # Write headers
-        config_writer.writerow([
-            'ip_type', 'ip', 'network_host', 'subnet'])
+        config_writer.writerow(['ip_type', 'ip',
+                                'network_host', 'subnet',
+                                'ranges'])
 
         # Write address entries
         row_count = 0
         for addr in address_obj:
-            if addr.host:
-                config_writer.writerow([
-                    addr.name,
-                    addr.ip,
-                    addr.host,
-                    addr.subnet, ])
-            elif addr.network:
-                config_writer.writerow([
-                    addr.name,
-                    addr.ip,
-                    addr.network,
-                    addr.subnet, ])
-            else:
-                config_writer.writerow([
-                    addr.name,
-                    addr.ip,
-                    '',
-                    ''])
+            addr_content = [
+                addr.name,
+                addr.ip,
+                addr.host if addr.host else addr.network,
+                addr.subnet,
+                addr.range
+                ]
+
+            config_writer.writerow(addr_content)
 
             logger.debug('Adding row {}. Contains {}.'.format(
-                row_count, [
-                    addr.name,
-                    addr.ip,
-                    addr.host,
-                    addr.network,
-                    addr.subnet
-                ]
-            ))
+                row_count, addr_content))
             row_count += 1
 
         logger.info('Generating Address CSV completed.')
@@ -84,12 +69,16 @@ class Address:
         self.host = ''
         self.network = ''
         self.subnet = ''
+        self.range = ''
         self.populate_fields()
 
     # Populate fields by extracting the needed data
     # using regular expressions.
     def populate_fields(self):
         self.name = self._extract_name()
+
+        # Populate either host, network or range
+        # as only one is provided per address-object
         self.host = helper.extract_field_name(
             self._address,
             r'(?<=\shost\s)')
@@ -97,6 +86,16 @@ class Address:
             self.subnet = '255.255.255.255'
         else:
             self.network, self.subnet = self._extract_network_details()
+            if not self.network:
+                range_match = re.search(
+                    r"\srange\s(?P<range1>[\d.]+)\s(?P<range2>[\d.]+)",
+                    self._address)
+                if range_match:
+                    ranges = range_match.groupdict()
+                    self.range = "{}-{}".format(
+                        ranges.get('range1'),
+                        ranges.get('range2'))
+
         self.ip = self._extract_ip()
 
         self._logger.debug('Parsed value: {}'.format([
