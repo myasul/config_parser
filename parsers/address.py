@@ -103,7 +103,8 @@ class Address:
             self.ip,
             self.host,
             self.network,
-            self.subnet]))
+            self.subnet,
+            self.range]))
 
     def _extract_ip(self):
         ip_type = self._extract_ip_type()
