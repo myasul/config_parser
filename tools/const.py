@@ -7,6 +7,7 @@ SERVICE_GRP_FILENAME = 'service-group.csv'
 SERVICE_FILENAME = 'services.csv'
 ZONE_FILENAME = 'zones.csv'
 INTERFACE_FILENAME = 'interface.csv'
+NAT_POLICY_FILENAME = 'nat_policy.csv'
 
 SERVICE_REGEX = re.compile(r'^service-object.+$', re.I | re.M)
 SERVICE_GRP_REGEX = re.compile(r'^service-group.+?exit$', re.I | re.M | re.S)
@@ -18,6 +19,7 @@ ADDRESS_GRP_REGEX = re.compile(r'^address-group.+?exit$', re.I | re.M | re.S)
 ZONE_REGEX = re.compile(r'^zone.+?exit$', re.I | re.M | re.S)
 INTERFACE_REGEX = re.compile(
     r'^interface.+?(?:^\s{4}exit)$', re.I | re.M | re.S)
+NAT_POLICY_REGEX = re.compile(r'^nat-policy.+?exit$', re.I | re.M | re.S)
 
 WINDOWS_LINE_ENDING = b'\r\n'
 UNIX_LINE_ENDING = b'\n'

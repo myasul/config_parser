@@ -49,7 +49,7 @@ def generate_address_csv(content, csv_dir, file_format):
                 addr.host if addr.host else addr.network,
                 addr.subnet,
                 addr.range
-                ]
+            ]
 
             config_writer.writerow(addr_content)
 

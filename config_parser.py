@@ -22,7 +22,7 @@ sudo chmod +x config_parser.py
 """
 
 # TODO :: LIST
-# 1. Create logging
+# 1. Create logging - DONE
 # 2. Add meaningful comments
 # 3. Check if classes can be more concise. e.g. Add a parent class
 # 4. Implement argparser library - DONE
@@ -50,6 +50,7 @@ from parsers.services import generate_service_csv
 from parsers.service_group import generate_service_grp_csv
 from parsers.zone import generate_zone_csv
 from parsers.interface import generate_interface_csv
+from parsers.nat_policy import generate_nat_policy_csv
 
 # CSV File names
 SERVICES_FILENAME = 'services.csv'
@@ -77,7 +78,7 @@ def process_config_file(file_path, file_format):
             content = content.replace(WINDOWS_LINE_ENDING, UNIX_LINE_ENDING)
     except IOError:
         error_message = ("{} cannot be found or {} is a directory."
-                         "Please put it beside the config parser script "
+                         " Please put it beside the config parser script "
                          "or please specify the full valid path.").format(
             file_path, file_path)
         logger.error(error_message)
@@ -96,7 +97,7 @@ def process_config_file(file_path, file_format):
     generate_service_grp_csv(content, csv_dir, file_format)
     generate_zone_csv(content, csv_dir, file_format)
     generate_interface_csv(content, csv_dir, file_format)
-
+    generate_nat_policy_csv(content, csv_dir, file_format)
     return True
 
 
