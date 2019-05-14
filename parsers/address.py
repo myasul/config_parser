@@ -1,5 +1,6 @@
 import regex as re
 import csv
+from itertools import chain
 
 # Import tools
 import tools.helper as helper
@@ -15,9 +16,9 @@ def generate_address_csv(content, csv_dir, file_format):
     # Address has a special case where it can be within one line
     # or span between multiple lines. This is handled by two regexes
     # and stored in a set to avoid duplication.
-    addresses = set()
-    addresses.update(ADDRESS_REGEX.findall(content))
-    addresses.update(ADDRESS_MULTILINE_REGEX.findall(content))
+    addresses1 = {entry for entry in ADDRESS_REGEX.findall(content)}
+    addresses2 = {entry for entry in ADDRESS_MULTILINE_REGEX.findall(content)}
+    addresses = chain(addresses1, addresses2)
 
     address_obj = []
 

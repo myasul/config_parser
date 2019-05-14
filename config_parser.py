@@ -38,6 +38,7 @@ import sys
 import os
 import argparse
 import logging
+from timeit import default_timer as timer
 from argparse import RawTextHelpFormatter
 from tools.logger import get_logger
 from tools.const import WINDOWS_LINE_ENDING, UNIX_LINE_ENDING
@@ -102,6 +103,9 @@ def process_config_file(file_path, file_format):
 
 
 def main():
+    # Measure the time elapsed
+    start = timer()
+
     logger = get_logger(__name__)
 
     parser = argparse.ArgumentParser(
@@ -142,6 +146,10 @@ def main():
         logger.info(message)
         print "[CONFIRMATION] {}".format(message)
 
+    # Measure the time elapsed to run the script    
+    end = timer()
+    time_elapsed = 'Time elapased: {0:.2f} seconds'.format(end - start)
+    logger.info(time_elapsed)
 
 if __name__ == "__main__":
     main()
