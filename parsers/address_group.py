@@ -8,6 +8,22 @@ from tools.const import ADDRESS_GRP_REGEX, ADDRESS_GRP_FILENAME, FILE_FORMAT
 
 
 def generate_address_grp_csv(content, csv_dir, file_format):
+    """Process the configuration file and create the address_grp.csv file.
+
+    The method would extract all the address group lines in the provided config
+    file. Every address group line would be save as AddressGroup object for
+    further extraction. After further extraction every AddressGroup object
+    would be saved in the address_grp.csv.
+
+    Args:
+        content: Data as string coming from the configuration file.
+        csv_dir: Directory where the address_grp.csv would be saved.
+        file_format: address file can be saved as .csv or .ssv.
+
+    Returns:
+        None
+
+    """
     logger = get_logger(__name__)
     logger.info("Generating Address Group CSV file.")
 
@@ -48,16 +64,30 @@ def generate_address_grp_csv(content, csv_dir, file_format):
 
 
 class AddressGroup:
+    """Extracted address line would be further processed in this class.
+
+    Columns that should be displayed in the address.csv would be extracted
+    using regular expressions and would be saved in the class attributes.
+
+    Attributes:
+        address_grp: The address_grp line to be processed.
+        logger: use for logging purposes
+        ip: e.g. BadHosts4119
+        addresses: list of addresses that are comma separated. 
+            e.g. TidalFTP,SFTPServ,TidalFTP2
+
+    """
+
     def __init__(self, address_grp, logger):
+        """Initialize columns."""
         self._address_grp = address_grp
         self._logger = logger
         self.ip = ""
         self.addresses = ""
         self.populate_fields()
 
-    # Populate fields by extracting the needed data
-    # using regular expressions.
     def populate_fields(self):
+        """Populate fields by extracting the needed data using regex."""
         self.ip = self._extract_ip()
         self.addresses = self._extract_addresses()
 
@@ -76,5 +106,5 @@ class AddressGroup:
 
     def _extract_ip(self):
         ip = helper.extract_field_name(
-            self._address_grp, r'(?<=^address-group\s(ipv4|ipv6)\s)')
+            self._address_grp, r'(?<=^address-group\s(ipv4|ipv6|fqdn|mac)\s)')
         return "{};".format(ip)

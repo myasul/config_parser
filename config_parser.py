@@ -58,9 +58,21 @@ SERVICES_FILENAME = 'services.csv'
 SERVICES_GRP_FILENAME = 'services-grp.csv'
 
 
-# Main method that combines all the parsers and calls
-# them one by one to create csv/ssv files.
 def process_config_file(file_path, file_format):
+    """A wrapper method that groups all the parsers.
+
+    The config parser's main method that combines all the parsers that
+    generates csv/ssv files.
+
+    Args:
+        file_path: The path where the script can retrieve the configuration
+            file that will be processed.
+        file_format: The format where the file would be saved. It is either
+            saved as a comma separated file or a semi-colon separated file.
+
+    Returns:
+        None
+    """
     logger = get_logger(__name__)
 
     logger.info("{} si being parsed.".format(file_path))
@@ -146,7 +158,7 @@ def main():
         logger.info(message)
         print "[CONFIRMATION] {}".format(message)
 
-    # Measure the time elapsed to run the script    
+    # Measure the time elapsed for the script to finish.
     end = timer()
     time_elapsed = 'Time elapased: {0:.2f} seconds'.format(end - start)
     logger.info(time_elapsed)

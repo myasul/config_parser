@@ -2,7 +2,7 @@ import regex as re
 import csv
 from itertools import chain
 
-# Import tools
+# Internal imports
 import tools.helper as helper
 from tools.logger import get_logger
 from tools.const import ADDRESS_REGEX, ADDRESS_FILENAME, \
@@ -10,6 +10,22 @@ from tools.const import ADDRESS_REGEX, ADDRESS_FILENAME, \
 
 
 def generate_address_csv(content, csv_dir, file_format):
+    """Process the configuration file and create the address.csv file.
+
+    The method would extract all the address lines in the provided config
+    file. Every address line would be save as Address object for further
+    extraction. After further extraction every Address object would be saved
+    in the address.csv.
+
+    Args:
+        content: Data as string coming from the configuration file.
+        csv_dir: Directory where the address.csv would be saved.
+        file_format: address file can be saved as .csv or .ssv.
+
+    Returns:
+        None
+
+    """
     logger = get_logger(__name__)
     logger.info('Generating Address CSV file.')
 
@@ -62,7 +78,25 @@ def generate_address_csv(content, csv_dir, file_format):
 
 
 class Address:
+    """Extracted address line would be further processed in this class.
+
+    Columns that should be displayed in the address.csv would be extracted
+    using regular expressions and would be saved in the class attributes.
+
+    Attributes:
+        address: The address line to be processed.
+        logger: use for logging purposes
+        name: e.g. BadHosts4119
+        ip: e.g. 10.202.11.7
+        host: e.g. 75.119.211.139
+        network: e.g. 10.215.224.0
+        subnet: e.g. 255.255.255.240
+        range: e.g. 209.46.117.161-209.46.117.191
+
+    """
+
     def __init__(self, address, logger):
+        """Initialize columns."""
         self._address = address
         self._logger = logger
         self.name = ''
@@ -73,9 +107,8 @@ class Address:
         self.range = ''
         self.populate_fields()
 
-    # Populate fields by extracting the needed data
-    # using regular expressions.
     def populate_fields(self):
+        """Populate fields by extracting the needed data using regex."""
         self.name = self._extract_name()
 
         # Populate either host, network or range
@@ -108,6 +141,7 @@ class Address:
             self.range]))
 
     def _extract_ip(self):
+        """Extracts IP depending on the protocol/IP type provided"""
         ip_type = self._extract_ip_type()
 
         if ip_type == 'ipv4':
@@ -126,6 +160,7 @@ class Address:
             return ''
 
     def _extract_ip_type(self):
+        """Extract the IP type that will be used for extracting the IP."""
         ip_type_match = re.search(
             r'(?:\sipv4\s)|(?:\sipv6\s)|(?:\sfqdn\s)|(?:\smac\s)',
             self._address)
@@ -149,6 +184,7 @@ class Address:
             self._address, r'(?<=\s{}\s)'.format(ip_type))
 
     def _extract_network_details(self):
+        """Extract network which consists of extracting network and subnet."""
         network = subnet = ""
         network_match = re.search(r'(?<=\snetwork\s)' +
                                   r'(?P<network>[^\s]+)\s+(?P<subnet>[^\s]+)',
