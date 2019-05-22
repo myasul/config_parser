@@ -75,16 +75,17 @@ class Service:
         # previous regex, try to extract the protocol and ports using
         # the regex below
         if not match:
-            match = re.search(r'(service-object\s((""[^"]+"")|[^\s]+)\s)' +
-                              r'(?P<protocol>[^\s]+)\s+(?P<ports>.+)',
+            match = re.search(r'(service-object\s((""?[^"]+""?)|[^\s]+)\s)' +
+                              r'(?P<protocol>[^\s]+)\s*(?P<ports>.+)?',
                               self._service)
 
         # Validate if all network columns have been extracted
         if match:
             network_details = match.groupdict()
             # Extract protocol
-            self.protocol = helper.remove_wrapping_quotes(
+            protocol = helper.remove_wrapping_quotes(
                 network_details.get('protocol'))
+            self.protocol = protocol.lower()
 
             # Extract and format destination port
             if network_details.get('ports'):
