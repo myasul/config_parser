@@ -8,6 +8,22 @@ from tools.const import ZONE_REGEX, ZONE_FILENAME, FILE_FORMAT
 
 
 def generate_zone_csv(content, csv_dir, file_format):
+    """Process the configuration file and create the zone.csv file.
+
+    The method would extract all the zone lines in the provided config
+    file. Every zone line would be save as Zone object for further
+    extraction. After further extraction every Zone object would be saved
+    in the zone.csv.
+
+    Args:
+        content: Data as string coming from the configuration file.
+        csv_dir: Directory where the zone.csv would be saved.
+        file_format: zone file can be saved as .csv or .ssv.
+
+    Returns:
+        None
+
+    """
     logger = get_logger(__name__)
     logger.info("Generating Zone CSV file.")
 
@@ -44,16 +60,29 @@ def generate_zone_csv(content, csv_dir, file_format):
 
 
 class Zone:
+    """Extracted zone line would be further processed in this class.
+
+    Columns that should be displayed in the zone.csv would be extracted
+    using regular expressions and would be saved in the class attributes.
+
+    Attributes:
+        zone_config: The zone line to be processed.
+        logger: use for logging purposes
+        zone: e.g. zone
+        name: e.g. MULTICAST
+
+    """
+
     def __init__(self, zone_config, logger):
+        """Initialize columns."""
         self._zone_config = zone_config
         self._logger = logger
         self.zone = "zone"
         self.name = ""
         self.populate_fields()
 
-    # Populate fields by extracting the needed data
-    # using regular expressions.
     def populate_fields(self):
+        """Populate fields by extracting the needed data using regex."""
         self.name = helper.extract_field_name(
             self._zone_config, r'(?<=zone\s)')
 

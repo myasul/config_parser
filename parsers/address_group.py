@@ -64,16 +64,16 @@ def generate_address_grp_csv(content, csv_dir, file_format):
 
 
 class AddressGroup:
-    """Extracted address line would be further processed in this class.
+    """Extracted address_grp line would be further processed in this class.
 
-    Columns that should be displayed in the address.csv would be extracted
+    Columns that should be displayed in the address_grp.csv would be extracted
     using regular expressions and would be saved in the class attributes.
 
     Attributes:
         address_grp: The address_grp line to be processed.
         logger: use for logging purposes
         ip: e.g. BadHosts4119
-        addresses: list of addresses that are comma separated. 
+        addresses: list of addresses that are comma separated.
             e.g. TidalFTP,SFTPServ,TidalFTP2
 
     """

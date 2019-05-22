@@ -8,6 +8,22 @@ from tools.const import SERVICE_GRP_FILENAME, SERVICE_GRP_REGEX, FILE_FORMAT
 
 
 def generate_service_grp_csv(content, csv_dir, file_format):
+    """Process the configuration file and create the service_group.csv file.
+
+    The method would extract all the service_group lines in the provided config
+    file. Every service_group line would be save as ServiceGroup object for
+    further extraction. After further extraction every ServiceGroup object
+    would be saved in the service_group.csv.
+
+    Args:
+        content: Data as string coming from the configuration file.
+        csv_dir: Directory where the service_group.csv would be saved.
+        file_format: service_group file can be saved as .csv or .ssv.
+
+    Returns:
+        None
+
+    """
     logger = get_logger(__name__)
     logger.info("Generating Service Group CSV file.")
 
@@ -49,16 +65,31 @@ def generate_service_grp_csv(content, csv_dir, file_format):
 
 
 class ServiceGroup:
+    """Extracted service_group line would be further processed in this class.
+
+    Columns that should be displayed in the service_group.csv would be
+    extracted using regular expressions and would be saved in the class
+    attributes.
+
+    Attributes:
+        service_group: The service_group line to be processed.
+        logger: use for logging purposes
+        group_name: e.g. AD Directory Services
+        services: list of services that are comma separated.
+            e.g. Terminal Services TCP,Terminal Services UDP
+
+    """
+
     def __init__(self, service_group, logger):
+        """Initialize columns."""
         self._service_group = service_group
         self._logger = logger
         self.group_name = ""
         self.services = ""
         self.populate_fields()
 
-    # Populate fields by extracting the needed data
-    # using regular expressions.
     def populate_fields(self):
+        """Populate fields by extracting the needed data using regex."""
         self.group_name = self._extract_group_name()
         self.services = self._extract_services()
 

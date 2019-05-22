@@ -62,9 +62,9 @@ def generate_interface_csv(content, csv_dir, file_format):
 
 
 class Interface:
-    """Extracted address line would be further processed in this class.
+    """Extracted interface line would be further processed in this class.
 
-    Columns that should be displayed in the address.csv would be extracted
+    Columns that should be displayed in the interface.csv would be extracted
     using regular expressions and would be saved in the class attributes.
 
     Attributes:

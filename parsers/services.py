@@ -8,6 +8,22 @@ from tools.const import SERVICE_REGEX, SERVICE_FILENAME, FILE_FORMAT
 
 
 def generate_service_csv(content, csv_dir, file_format):
+    """Process the configuration file and create the services.csv file.
+
+    The method would extract all the services lines in the provided config
+    file. Every services line would be save as Services object for further
+    extraction. After further extraction every Services object would be saved
+    in the services.csv.
+
+    Args:
+        content: Data as string coming from the configuration file.
+        csv_dir: Directory where the services.csv would be saved.
+        file_format: services file can be saved as .csv or .ssv.
+
+    Returns:
+        None
+
+    """
     logger = get_logger(__name__)
     logger.info("Generating Service CSV file.")
 
@@ -45,7 +61,22 @@ def generate_service_csv(content, csv_dir, file_format):
 
 
 class Service:
+    """Extracted services line would be further processed in this class.
+
+    Columns that should be displayed in the services.csv would be extracted
+    using regular expressions and would be saved in the class attributes.
+
+    Attributes:
+        services: The services line to be processed.
+        logger: use for logging purposes
+        service_name: e.g. IMAP3
+        protocol: e.g. tcp
+        destination_port: e.g. 3389-3389
+
+    """
+
     def __init__(self, service, logger):
+        """Initialize columns."""
         self._service = service
         self._logger = logger
         self.service_name = ""
@@ -53,9 +84,8 @@ class Service:
         self.destination_port = ""
         self.populate_fields()
 
-    # Populate fields by extracting the needed data
-    # using regular expressions.
     def populate_fields(self):
+        """Populate fields by extracting the needed data using regex."""
         self.service_name = helper.extract_field_name(
             self._service, r'(?<=service-object\s)')
         self._extract_network_details()
@@ -67,6 +97,7 @@ class Service:
         ]))
 
     def _extract_network_details(self):
+        """Extract and format both protocol and ports."""
         match = re.search(
             r'\s+(?P<protocol>TCP|UDP|ICMPV6|ICMP)\s+(?P<ports>.+)',
             self._service)
